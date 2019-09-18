@@ -13,6 +13,8 @@
 </head>
 
 <body>
+    <h3>Map controls</h3>
+
     <div class="commands">
         <div class="command">
             <label for="center-lat">Latitude</label>
@@ -28,6 +30,28 @@
         </div>
         <div class="command">
             <button type="button" class="btn" id="commands-button">Apply</button>
+        </div>
+    </div>
+
+    <h3>Drawing tools</h3>
+
+    <h4>Circle</h4>
+
+    <div class="commands">
+        <div class="command">
+            <label for="center-lat">Latitude</label>
+            <input type="text" class="command" id="circle-lat" value="44.95" placeholder="Latitude">
+        </div>
+        <div class="command">
+            <label for="center-lat">Longitude</label>
+            <input type="text" class="command" id="circle-lng" value="6.28" placeholder="Longitude">
+        </div>
+        <div class="command">
+            <label for="center-lat">Radius</label>
+            <input type="text" class="command" id="circle-radius" value="500" placeholder="Zoom">
+        </div>
+        <div class="command">
+            <button type="button" class="btn" id="circle-button">Draw</button>
         </div>
     </div>
 

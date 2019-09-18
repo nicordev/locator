@@ -3,11 +3,11 @@ function MapHandler() {
     let that = {
         makeMap: function (
             mapElementId,
-            centerLat,
-            centerLng,
-            zoom = 13
+            centerLatLng,
+            zoom = 13,
+            options = null
         ) {
-            return L.map(mapElementId).setView([centerLat, centerLng], zoom);
+            return L.map(mapElementId, options).setView(centerLatLng, zoom);
         },
 
         addTileLayer: function (
@@ -25,16 +25,22 @@ function MapHandler() {
 
         addMarker: function (
             map,
-            markerLat,
-            markerLng
+            markerLatLng
         ) {
-            return L.marker([markerLat, markerLng]).addTo(map);
+            return L.marker(markerLatLng).addTo(map);
         },
 
-        addCircle: function (
+        addPopup: function (map, latlng, content) {
+
+            return L.popup()
+                .setLatLng(latlng)
+                .setContent(content)
+                .openOn(map);
+        },
+
+        drawCircle: function (
             map,
-            centerLat,
-            centerLng,
+            centerLatLng,
             options = {
                 color: 'red',
                 fillColor: '#f03',
@@ -42,7 +48,7 @@ function MapHandler() {
                 radius: 500
             }
         ) {
-            return L.circle([centerLat, centerLng], options).addTo(map);
+            return L.circle(centerLatLng, options).addTo(map);
         }
     }
 
