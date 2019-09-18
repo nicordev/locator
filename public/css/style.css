@@ -1,5 +1,17 @@
-#mapid 
+#main-map
 {
     max-width: 600px;
     height: 400px;
+}
+
+.commands
+{
+}
+
+.command
+{
+    max-width: 500px;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
