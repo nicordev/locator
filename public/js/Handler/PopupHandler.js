@@ -1,5 +1,5 @@
 /**
- * Methods to handle popups on the map
+ * Handle popups on the map
  *
  * @constructor
  */

@@ -1,5 +1,5 @@
 /**
- * Methods to handle markers on the map
+ * Handle markers on the map
  *
  * @constructor
  */

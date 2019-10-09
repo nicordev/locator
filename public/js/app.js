@@ -1,18 +1,29 @@
+/**
+ * The main class
+ *
+ * @returns {{init: init, drawingTools: null, mapHandler: null, _initCommands: _initCommands, _initDrawingTools: _initDrawingTools, markerHandler: null, map: null, items: {circles: [], markers: []}, _initMap: _initMap, commands: null, popupHandler: null}}
+ * @constructor
+ */
 function App() {
 
     let that = {
         mapHandler: null,
         popupHandler: null,
         markerHandler: null,
+        circleHandler: null,
         map: null,
         commands: null,
         drawingTools: null,
         items: {
-            markers: [],
             circles: []
         },
 
-        init: function (mapHandler = null, markerHandler = null, popupHandler = null) {
+        init: function (
+            mapHandler = null,
+            markerHandler = null,
+            popupHandler = null,
+            circleHandler = null
+        ) {
 
             if (mapHandler) {
                 that.mapHandler = mapHandler;
@@ -30,6 +41,12 @@ function App() {
                 that.markerHandler = markerHandler;
             } else {
                 that.markerHandler = new MarkerHandler();
+            }
+
+            if (circleHandler) {
+                that.circleHandler = circleHandler;
+            } else {
+                that.circleHandler = new CircleHandler();
             }
 
             that._initCommands();
@@ -82,6 +99,7 @@ function App() {
 
         _initDrawingTools: function () {
 
+            that.circleHandler.init(that.map, that.mapHandler);
             that.drawingTools = {
                 circle: {
                     lat: document.getElementById("circle-lat"),
@@ -92,16 +110,10 @@ function App() {
             };
 
             that.drawingTools.circle.drawButton.addEventListener("click", function () {
-                that.items.circles.push(that.mapHandler.drawCircle(
-                    that.map,
+                that.circleHandler.drawCircle(
                     [that.drawingTools.circle.lat.value, that.drawingTools.circle.lng.value],
-                    {
-                        color: 'red',
-                        fillColor: '#f03',
-                        fillOpacity: 0.5,
-                        radius: that.drawingTools.circle.radius.value
-                    }
-                ));
+                    that.drawingTools.circle.radius.value
+                );
             });
         }
     };
