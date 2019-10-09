@@ -1,7 +1,9 @@
-function App(mapHandler = null) {
+function App() {
 
     let that = {
-        mapHandler: mapHandler,
+        mapHandler: null,
+        popupHandler: null,
+        markerHandler: null,
         map: null,
         commands: null,
         drawingTools: null,
@@ -10,16 +12,32 @@ function App(mapHandler = null) {
             circles: []
         },
 
-        init: function (mapHandler = null) {
+        init: function (mapHandler = null, markerHandler = null, popupHandler = null) {
 
             if (mapHandler) {
                 that.mapHandler = mapHandler;
             } else {
                 that.mapHandler = new MapHandler();
             }
+
+            if (popupHandler) {
+                that.popupHandler = popupHandler;
+            } else {
+                that.popupHandler = new PopupHandler();
+            }
+
+            if (markerHandler) {
+                that.markerHandler = markerHandler;
+            } else {
+                that.markerHandler = new MarkerHandler();
+            }
+
+            that._initCommands();
+            that._initMap();
+            that._initDrawingTools();
         },
 
-        run: function () {
+        _initCommands: function () {
 
             that.commands = {
                 center: {
@@ -29,7 +47,11 @@ function App(mapHandler = null) {
                 zoom: document.getElementById("zoom"),
                 applyButton: document.getElementById("commands-button")
             };
+        },
 
+        _initMap: function () {
+
+            // Create the map
             that.map = that.mapHandler.makeMap(
                 "main-map",
                 [that.commands.center.lat.value, that.commands.center.lng.value],
@@ -37,47 +59,28 @@ function App(mapHandler = null) {
                 {doubleClickZoom: false}
             );
 
+            // Add a background layer
             that.mapHandler.addTileLayer(that.map);
-            that.map.on("dblclick", onMapDoubleClick);
 
-            function onMapDoubleClick(event) {
+            // Add interactions
+            that.popupHandler.init(that.map, that.mapHandler);
+            that.markerHandler.init(that.map, that.mapHandler, that.popupHandler);
+            that.map.on("dblclick", that.markerHandler.placeMarkerOnEvent);
 
-                let marker = that.mapHandler.addMarker(
+            // Init the command to center the map
+            that.commands.applyButton.addEventListener("click", centerMapFromCommand);
+
+            function centerMapFromCommand() {
+
+                that.mapHandler.centerMap(
                     that.map,
-                    [event.latlng.lat, event.latlng.lng]
-                );
-                that.items.markers.push(marker);
-                marker.addEventListener("click", onMarkerClick);
-                marker.addEventListener("contextmenu", onMarkerRightClick);
-            }
-
-            function onMarkerClick(event) {
-
-                that.mapHandler.addPopup(
-                    that.map,
-                    event.latlng,
-                    event.latlng.toString()
-                )
-            }
-
-            function onMarkerRightClick(event) {
-
-                let marker = event.target,
-                    index = that.items.markers.indexOf(marker);
-
-                if (index > -1) {
-                    that.items.markers.splice(index, 1);
-                }
-
-                marker.remove();
-            }
-
-            that.commands.applyButton.addEventListener("click", function () {
-                that.map.setView(
                     [that.commands.center.lat.value, that.commands.center.lng.value],
                     that.commands.zoom.value
                 );
-            });
+            }
+        },
+
+        _initDrawingTools: function () {
 
             that.drawingTools = {
                 circle: {
