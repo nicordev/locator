@@ -2,6 +2,8 @@ html, body {
     margin: 0;
     height: 100%;
     --main-bg-color: rgb(44, 62, 80);
+    --main-font: 'Open Sans', sans-serif;
+    font-family: var(--main-font);
 }
 
 #main-map
@@ -50,6 +52,7 @@ html, body {
 }
 
 .btn {
+    font-family: var(--main-font);
     padding: 5px;
     border: none;
     border-radius: 5px;
