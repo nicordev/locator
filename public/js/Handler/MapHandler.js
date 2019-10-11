@@ -1,6 +1,22 @@
+/**
+ * Interface between common needs to draw maps and the leaflet library
+ *
+ * @returns {{drawCircle: (function(*=, *=, *=): *), addPopup: (function(*=, *=, *=): *), makeMap: (function(*=, *=, *=, *=): *), addTileLayer: addTileLayer, addMarker: (function(*=, *=): *)}}
+ * @constructor
+ */
 function MapHandler() {
 
     let that = {
+
+        /**
+         * Create a Leaflet map
+         *
+         * @param mapElementId
+         * @param centerLatLng
+         * @param zoom
+         * @param options
+         * @returns {*}
+         */
         makeMap: function (
             mapElementId,
             centerLatLng,
@@ -10,6 +26,13 @@ function MapHandler() {
             return L.map(mapElementId, options).setView(centerLatLng, zoom);
         },
 
+        /**
+         * Add a tile layer to the map (the background)
+         *
+         * @param map
+         * @param layerUrl
+         * @param layerOptions
+         */
         addTileLayer: function (
             map,
             layerUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
@@ -23,6 +46,13 @@ function MapHandler() {
             L.tileLayer(layerUrl, layerOptions).addTo(map);
         },
 
+        /**
+         * Add a marker
+         *
+         * @param map
+         * @param markerLatLng
+         * @returns {*}
+         */
         addMarker: function (
             map,
             markerLatLng
@@ -30,6 +60,13 @@ function MapHandler() {
             return L.marker(markerLatLng).addTo(map);
         },
 
+        /**
+         * Add a popup
+         * @param map
+         * @param latlng
+         * @param content
+         * @returns {*}
+         */
         addPopup: function (map, latlng, content) {
 
             return L.popup()
@@ -38,6 +75,29 @@ function MapHandler() {
                 .openOn(map);
         },
 
+        /**
+         * Center the map on a position
+         *
+         * @param map
+         * @param latlng
+         * @param zoom
+         */
+        centerMap: function (map, latlng, zoom) {
+
+            map.setView(
+                latlng,
+                zoom
+            );
+        },
+
+        /**
+         * Draw a circle
+         *
+         * @param map
+         * @param centerLatLng
+         * @param options
+         * @returns {*}
+         */
         drawCircle: function (
             map,
             centerLatLng,
@@ -50,7 +110,7 @@ function MapHandler() {
         ) {
             return L.circle(centerLatLng, options).addTo(map);
         }
-    }
+    };
 
     return that;
 }

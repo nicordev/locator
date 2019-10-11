@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
         integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
         crossorigin="" />
@@ -13,67 +14,80 @@
 </head>
 
 <body>
-    <h3>Map controls</h3>
-
-    <div class="commands">
-        <div class="command">
-            <label for="center-lat">Latitude</label>
-            <input type="text" class="command" id="center-lat" value="44.95" placeholder="Latitude">
-        </div>
-        <div class="command">
-            <label for="center-lat">Longitude</label>
-            <input type="text" class="command" id="center-lng" value="6.28" placeholder="Longitude">
-        </div>
-        <div class="command">
-            <label for="center-lat">Zoom</label>
-            <input type="text" class="command" id="zoom" value="13" placeholder="Zoom">
-        </div>
-        <div class="command">
-            <button type="button" class="btn" id="commands-button">Apply</button>
-        </div>
-    </div>
-
-    <h3>Drawing tools</h3>
-
-    <h4>Markers</h4>
-
-    <ul>
-        <li><em>Double-click on the map</em> place a marker</li>
-        <li><em>Click on a marker</em> shows a popup</li>
-        <li><em>Right-click on a marker</em> delete the marker</li>
-    </ul>
-
-    <h4>Circle</h4>
-
-    <div class="commands">
-        <div class="command">
-            <label for="center-lat">Latitude</label>
-            <input type="text" class="command" id="circle-lat" value="44.95" placeholder="Latitude">
-        </div>
-        <div class="command">
-            <label for="center-lat">Longitude</label>
-            <input type="text" class="command" id="circle-lng" value="6.28" placeholder="Longitude">
-        </div>
-        <div class="command">
-            <label for="center-lat">Radius</label>
-            <input type="text" class="command" id="circle-radius" value="500" placeholder="Zoom">
-        </div>
-        <div class="command">
-            <button type="button" class="btn" id="circle-button">Draw</button>
-        </div>
-    </div>
-
     <div id="main-map"></div>
+
+    <div class="toolbox">
+        <h2>Tools<span class="expand-toggle">-</span></h2>
+
+        <div class="tools">
+            <h3>Map controls<span class="expand-toggle">-</span></h3>
+
+            <div>
+                <div class="commands">
+                    <div class="command">
+                        <label for="center-lat">Latitude</label>
+                        <input type="text" class="command" id="center-lat" value="44.95" placeholder="Latitude">
+                    </div>
+                    <div class="command">
+                        <label for="center-lat">Longitude</label>
+                        <input type="text" class="command" id="center-lng" value="6.28" placeholder="Longitude">
+                    </div>
+                    <div class="command">
+                        <label for="center-lat">Zoom</label>
+                        <input type="text" class="command" id="zoom" value="13" placeholder="Zoom">
+                    </div>
+                    <div class="command">
+                        <button type="button" class="btn" id="commands-button">Apply</button>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Drawing tools<span class="expand-toggle">-</span></h3>
+
+            <div>
+                <h4>Markers<span class="expand-toggle">-</span></h4>
+
+                <ul>
+                    <li><em>Double-click on the map</em> place a marker</li>
+                    <li><em>Click on a marker</em> shows a popup</li>
+                    <li><em>Right-click on a marker</em> delete the marker</li>
+                </ul>
+
+                <h4>Circle<span class="expand-toggle">-</span></h4>
+
+                <div class="commands">
+                    <div class="command">
+                        <label for="center-lat">Latitude</label>
+                        <input type="text" class="command" id="circle-lat" value="44.95" placeholder="Latitude">
+                    </div>
+                    <div class="command">
+                        <label for="center-lat">Longitude</label>
+                        <input type="text" class="command" id="circle-lng" value="6.28" placeholder="Longitude">
+                    </div>
+                    <div class="command">
+                        <label for="center-lat">Radius</label>
+                        <input type="text" class="command" id="circle-radius" value="500" placeholder="Zoom">
+                    </div>
+                    <div class="command">
+                        <button type="button" class="btn" id="circle-button">Draw</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
         integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
         crossorigin=""></script>
-    <script src="js/MapHandler/MapHandler.js"></script>
+    <script src="js/Handler/ElementHandler.js"></script>
+    <script src="js/Handler/CircleHandler.js"></script>
+    <script src="js/Handler/PopupHandler.js"></script>
+    <script src="js/Handler/MarkerHandler.js"></script>
+    <script src="js/Handler/MapHandler.js"></script>
     <script src="js/app.js"></script>
     <script>
         let app = new App();
         app.init();
-        app.run();
     </script>
 </body>
 
