@@ -16,12 +16,12 @@
     <div id="main-map"></div>
 
     <div class="toolbox">
-        <h2>Tools</h2>
+        <h2>Tools<span class="expand-toggle">-</span></h2>
 
-        <div class="tool">
-            <h3 class="expand-toggle">Map controls</h3>
+        <div class="tools">
+            <h3>Map controls<span class="expand-toggle">-</span></h3>
 
-            <div class="expand">
+            <div>
                 <div class="commands">
                     <div class="command">
                         <label for="center-lat">Latitude</label>
@@ -40,13 +40,11 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="tool">
-            <h3>Drawing tools</h3>
+            <h3>Drawing tools<span class="expand-toggle">-</span></h3>
 
-            <div class="expand">
-                <h4>Markers</h4>
+            <div>
+                <h4>Markers<span class="expand-toggle">-</span></h4>
 
                 <ul>
                     <li><em>Double-click on the map</em> place a marker</li>
@@ -54,7 +52,7 @@
                     <li><em>Right-click on a marker</em> delete the marker</li>
                 </ul>
 
-                <h4>Circle</h4>
+                <h4>Circle<span class="expand-toggle">-</span></h4>
 
                 <div class="commands">
                     <div class="command">
@@ -80,6 +78,7 @@
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
         integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
         crossorigin=""></script>
+    <script src="js/Handler/ElementHandler.js"></script>
     <script src="js/Handler/CircleHandler.js"></script>
     <script src="js/Handler/PopupHandler.js"></script>
     <script src="js/Handler/MarkerHandler.js"></script>

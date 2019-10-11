@@ -10,6 +10,21 @@ html, body {
     z-index: 0;
 }
 
+.hidden {
+    display: none;
+}
+
+.expand-toggle {
+    background-color: cadetblue;
+    padding: 3px 10px;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.expand-toggle:hover {
+    cursor: pointer;
+}
+
 .toolbox
 {
     position: absolute;

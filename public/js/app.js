@@ -7,6 +7,7 @@
 function App() {
 
     let that = {
+        elementHandler: null,
         mapHandler: null,
         popupHandler: null,
         markerHandler: null,
@@ -22,7 +23,8 @@ function App() {
             mapHandler = null,
             markerHandler = null,
             popupHandler = null,
-            circleHandler = null
+            circleHandler = null,
+            elementHandler = null
         ) {
 
             if (mapHandler) {
@@ -49,9 +51,34 @@ function App() {
                 that.circleHandler = new CircleHandler();
             }
 
+            if (elementHandler) {
+                that.elementHandler = elementHandler;
+            } else {
+                that.elementHandler = new ElementHandler();
+            }
+
+            that._initExpandButtons();
             that._initCommands();
             that._initMap();
             that._initDrawingTools();
+        },
+
+        _initExpandButtons: function () {
+
+            let buttonElements = document.getElementsByClassName("expand-toggle"),
+                expandedButtonContent = "-",
+                retractedButtonContent = "+";
+
+            that.elementHandler.init("hidden");
+
+            for (let buttonElement of buttonElements) {
+
+                buttonElement.addEventListener("click", function () {
+                    that.elementHandler.toggleExpandNextElement(buttonElement, expandedButtonContent, retractedButtonContent);
+                });
+
+                that.elementHandler.retractElement(buttonElement.parentElement.nextElementSibling, buttonElement);
+            }
         },
 
         _initCommands: function () {
