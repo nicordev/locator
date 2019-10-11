@@ -1,6 +1,6 @@
 # Locator
 
-A website to draw things on a map.
+A website to draw things on a map, [here](http://locator.nicordev.com/index.html).
 
 ## Current features
 
