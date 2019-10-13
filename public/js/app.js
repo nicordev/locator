@@ -9,10 +9,16 @@ function App() {
     let that = {
         elementHandler: null,
         mapHandler: null,
+        geolocationHandler: null,
         popupHandler: null,
         markerHandler: null,
         circleHandler: null,
         map: null,
+        geolocationOptions: {
+            enableHighAccuracy : true,
+            maximumAge : 0, // Maximum age in milliseconds of a possible cached position that is acceptable to return
+            timeout : 10000 // Maximum length of time in milliseconds the device is allowed to take in order to return a position
+        },
         commands: null,
         drawingTools: null,
         items: {
@@ -21,6 +27,7 @@ function App() {
 
         init: function (
             mapHandler = null,
+            geolocationHandler = null,
             markerHandler = null,
             popupHandler = null,
             circleHandler = null,
@@ -31,6 +38,12 @@ function App() {
                 that.mapHandler = mapHandler;
             } else {
                 that.mapHandler = new MapHandler();
+            }
+
+            if (geolocationHandler) {
+                that.geolocationHandler = geolocationHandler;
+            } else {
+                that.geolocationHandler = new GeolocationHandler();
             }
 
             if (popupHandler) {
@@ -58,8 +71,9 @@ function App() {
             }
 
             that._initExpandButtons();
-            that._initCommands();
+            that._setCommandElements();
             that._initMap();
+            that._initCommands();
             that._initDrawingTools();
         },
 
@@ -81,9 +95,15 @@ function App() {
             }
         },
 
-        _initCommands: function () {
+        /**
+         * Set commands DOM elements
+         *
+         * @private
+         */
+        _setCommandElements: function () {
 
             that.commands = {
+                geolocationButton: document.getElementById("geolocation-button"),
                 center: {
                     lat: document.getElementById("center-lat"),
                     lng: document.getElementById("center-lng"),
@@ -93,6 +113,11 @@ function App() {
             };
         },
 
+        /**
+         * Initialize the map
+         *
+         * @private
+         */
         _initMap: function () {
 
             // Create the map
@@ -111,17 +136,40 @@ function App() {
             that.markerHandler.init(that.map, that.mapHandler, that.popupHandler);
             that.map.on("dblclick", that.markerHandler.placeMarkerOnEvent);
 
-            // Init the command to center the map
-            that.commands.applyButton.addEventListener("click", centerMapFromCommand);
 
-            function centerMapFromCommand() {
+        },
 
+        _initCommands: function () {
+
+            // Init the geolocation command
+            that.commands.geolocationButton.addEventListener("click", function () {
+                that.geolocationHandler.toggleWatchPosition(
+                    function (position) {
+                        that.mapHandler.centerMap(
+                            that.map,
+                            [position.coords.latitude, position.coords.longitude],
+                            that.commands.zoom.value
+                        );
+                    },
+                    that._geolocationError,
+                    that.geolocationOptions
+                );
+
+                if (that.commands.geolocationButton.textContent === "Locate me") {
+                    that.commands.geolocationButton.textContent = "Stop";
+                } else {
+                    that.commands.geolocationButton.textContent = "Locate me";
+                }
+            });
+
+            // Init the command to center the map on a set of coordinates
+            that.commands.applyButton.addEventListener("click", function () {
                 that.mapHandler.centerMap(
                     that.map,
                     [that.commands.center.lat.value, that.commands.center.lng.value],
                     that.commands.zoom.value
                 );
-            }
+            });
         },
 
         _initDrawingTools: function () {
@@ -142,6 +190,16 @@ function App() {
                     that.drawingTools.circle.radius.value
                 );
             });
+        },
+
+        /**
+         * Handle error due to geolocation
+         *
+         * @param error
+         * @private
+         */
+        _geolocationError: function (error) {
+            console.log('ERROR(' + error.code + '): ' + error.message);
         }
     };
 
