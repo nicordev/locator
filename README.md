@@ -8,3 +8,4 @@ A website to draw things on a map, [here](http://locator.nicordev.com/index.html
 * Draw circles
 * Place markers
 * Show popups when clicking on markers
+* Geolocation
