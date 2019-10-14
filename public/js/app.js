@@ -130,13 +130,6 @@ function App() {
 
             // Add a background layer
             that.mapHandler.addTileLayer(that.map);
-
-            // Add interactions
-            that.popupHandler.init(that.map, that.mapHandler);
-            that.markerHandler.init(that.map, that.mapHandler, that.popupHandler);
-            that.map.on("dblclick", that.markerHandler.placeMarkerOnEvent);
-
-
         },
 
         _initCommands: function () {
@@ -150,6 +143,7 @@ function App() {
                             [position.coords.latitude, position.coords.longitude],
                             that.commands.zoom.value
                         );
+                        let userMarker = that.markerHandler.placeMarker([position.coords.latitude, position.coords.longitude]);
                     },
                     that._geolocationError,
                     that.geolocationOptions
@@ -168,6 +162,19 @@ function App() {
                     that.map,
                     [that.commands.center.lat.value, that.commands.center.lng.value],
                     that.commands.zoom.value
+                );
+            });
+
+            // Init popups
+            that.popupHandler.init(that.map, that.mapHandler);
+
+            // Init markers
+            that.markerHandler.init(that.map, that.mapHandler, that.popupHandler);
+            that.map.on("dblclick", function (event) {
+                that.markerHandler.placeMarkerOnEvent(
+                    event,
+                    that.popupHandler.placePopupOnEvent,
+                    that.markerHandler.removeMarkerOnEvent
                 );
             });
         },
