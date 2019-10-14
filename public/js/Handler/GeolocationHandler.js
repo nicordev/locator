@@ -3,7 +3,7 @@
  *
  * @constructor
  */
-function GeolocationHandler ()
+function GeolocationHandler()
 {
     let that = {
 

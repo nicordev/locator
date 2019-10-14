@@ -22,7 +22,8 @@ function App() {
         commands: null,
         drawingTools: null,
         items: {
-            circles: []
+            circles: [],
+            userMarker: null,
         },
 
         init: function (
@@ -143,7 +144,22 @@ function App() {
                             [position.coords.latitude, position.coords.longitude],
                             that.commands.zoom.value
                         );
-                        let userMarker = that.markerHandler.placeMarker([position.coords.latitude, position.coords.longitude]);
+
+                        // Refresh user's marker position
+                        if (that.items.userMarker) {
+                            that.markerHandler.removeMarker(that.items.userMarker);
+                        }
+
+                        that.items.userMarker = that.markerHandler.placeMarker(
+                            [position.coords.latitude, position.coords.longitude],
+                            function () {
+                                that.popupHandler.placePopup(
+                                    [position.coords.latitude, position.coords.longitude],
+                                    "You are here:<br>Lat: " + position.coords.latitude.toPrecision(6) + "<br>Lng: " + position.coords.longitude.toPrecision(6) + "<br>Alt: " + (position.coords.altitude ? position.coords.altitude : 0) + " m<br>Precision: " + position.coords.accuracy + " m",
+                                    that.map
+                                );
+                            }
+                        );
                     },
                     that._geolocationError,
                     that.geolocationOptions
