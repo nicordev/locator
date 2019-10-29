@@ -86,13 +86,12 @@ function App() {
 
             that.elementHandler.init("hidden");
 
-            for (let buttonElement of buttonElements) {
-
-                buttonElement.addEventListener("click", function () {
-                    that.elementHandler.toggleExpandNextElement(buttonElement, expandedButtonContent, retractedButtonContent);
+            for (let i = 0; i < buttonElements.length; i++) { // Classic for loop instead of "for (let buttonElement of buttonElements)" to work on old iphone 5
+                buttonElements[i].addEventListener("click", function () {
+                    that.elementHandler.toggleExpandNextElement(buttonElements[i], expandedButtonContent, retractedButtonContent);
                 });
 
-                that.elementHandler.retractElement(buttonElement.parentElement.nextElementSibling, buttonElement);
+                that.elementHandler.retractElement(buttonElements[i].parentElement.nextElementSibling, buttonElements[i]);
             }
         },
 
