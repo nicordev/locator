@@ -26,6 +26,18 @@ function MapHandler() {
             return L.map(mapElementId, options).setView(centerLatLng, zoom);
         },
 
+        makeTileLayer: function (
+            layerUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+            layerOptions = {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 18,
+                id: 'mapbox.streets',
+                accessToken: 'pk.eyJ1Ijoibmljb3JkZXYiLCJhIjoiY2swbWNrNm1tMTI1MjNtbXpwZ2ZpcXJ6eCJ9.nEonoKrNrSnRZa0RpJz6XA' // My mapbox access token
+            }
+        ) {
+            return L.tileLayer(layerUrl, layerOptions);
+        },
+
         /**
          * Add a tile layer to the map (the background)
          *
@@ -44,6 +56,22 @@ function MapHandler() {
             }
         ) {
             L.tileLayer(layerUrl, layerOptions).addTo(map);
+        },
+
+        /**
+         * Add tile layers to the map (the background)
+         *
+         * @param map
+         * @param layerUrl
+         * @param layerOptions
+         */
+        addTileLayers: function (
+            map,
+            layers
+        ) {
+            for (layer of layers) {
+                layer.addTo(map);
+            }
         },
 
         /**

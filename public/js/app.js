@@ -136,8 +136,22 @@ function App() {
                 {doubleClickZoom: false}
             );
 
-            // Add a background layer
-            that.mapHandler.addTileLayer(that.map, that.geoportailHandler.mapLayerUrl, that.geoportailHandler.mapLayerOptions);
+            // Add base layers
+            let ignLayer = that.mapHandler.makeTileLayer(that.geoportailHandler.mapLayerUrl, that.geoportailHandler.mapLayerOptions)
+                mapboxLayer = that.mapHandler.makeTileLayer();
+
+            that.mapHandler.addTileLayers(that.map, [
+                ignLayer,
+                mapboxLayer
+            ]);
+
+            // Order matters. The last will be the one visible.
+            let baseLayers = {
+                "mapboxLayer": mapboxLayer,
+                "ignLayer": ignLayer,
+            };
+
+            L.control.layers(baseLayers).addTo(that.map);
         },
 
         _initCommands: function () {
