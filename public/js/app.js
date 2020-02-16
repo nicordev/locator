@@ -10,6 +10,7 @@ function App() {
         elementHandler: null,
         mapHandler: null,
         geolocationHandler: null,
+        geoportailHandler: null,
         popupHandler: null,
         markerHandler: null,
         circleHandler: null,
@@ -32,7 +33,8 @@ function App() {
             markerHandler = null,
             popupHandler = null,
             circleHandler = null,
-            elementHandler = null
+            elementHandler = null,
+            geoportailHandler = null
         ) {
 
             if (mapHandler) {
@@ -69,6 +71,12 @@ function App() {
                 that.elementHandler = elementHandler;
             } else {
                 that.elementHandler = new ElementHandler();
+            }
+
+            if (geoportailHandler) {
+                that.geoportailHandler = geoportailHandler;
+            } else {
+                that.geoportailHandler = new GeoportailHandler();
             }
 
             that._initExpandButtons();
@@ -129,7 +137,7 @@ function App() {
             );
 
             // Add a background layer
-            that.mapHandler.addTileLayer(that.map);
+            that.mapHandler.addTileLayer(that.map, that.geoportailHandler.mapLayerUrl, that.geoportailHandler.mapLayerOptions);
         },
 
         _initCommands: function () {
