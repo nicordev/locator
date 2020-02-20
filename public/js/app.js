@@ -3,16 +3,20 @@ function App() {
     let that = {
         map: {},
         mapCommands: {
-            // TODO: create a dedicated class for map control commands
-            elements: {
-                centerLatitude: document.getElementById('center-lat'),
-                centerLongitude: document.getElementById('center-lng')
-            },
-            center: () => {
-                that.map.setCenter([
-                    that.mapCommands.elements.centerLatitude.value,
-                    that.mapCommands.elements.centerLatitude.value
-                ]);
+            center: {
+                elements: {
+                    latitude: document.getElementById('command-center-latitude'),
+                    longitude: document.getElementById('command-center-longitude'),
+                    trigger: document.getElementById('command-center-button')
+                },
+                init: () => {
+                    that.mapCommands.center.elements.trigger.addEventListener('click', () => {
+                        that.map.setCenter([
+                            that.mapCommands.center.elements.latitude.value,
+                            that.mapCommands.center.elements.longitude.value
+                        ]);
+                    });
+                }
             }
         },
         init: () => {
@@ -22,6 +26,13 @@ function App() {
                 [45.12, 6.28],
                 13
             );
+            that.initMapCommands();
+        },
+
+        initMapCommands: () => {
+            for (let command in that.mapCommands) {
+                that.mapCommands[command].init();
+            }
         }
     };
 
