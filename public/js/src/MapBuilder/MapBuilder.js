@@ -30,6 +30,8 @@ function MapBuilder() {
             }
         },
 
+        addLayerControlsToMap: (map, layers) => L.control.layers(layers).addTo(map),
+
         buildMapBoxLayer: () => {
             let layerUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}';
             let options = {

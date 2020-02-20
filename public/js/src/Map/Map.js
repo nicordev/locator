@@ -4,6 +4,7 @@ function Map() {
         builder: new MapBuilder(),
         map: {},
         layers: {},
+        layerControls: {},
         zoom: 13,
         center: null,
 
@@ -14,7 +15,12 @@ function Map() {
             options = null
         ) => {
             that.element = document.getElementById(mapElementId);
-            that.map = that.builder.buildMap(mapElementId);
+            that.map = that.builder.buildMap(
+                mapElementId, 
+                centerLatLng, 
+                zoom, 
+                options
+            );
 
             let ignMap = 'ignMap';
             let mapBox = 'mapBox';
@@ -22,6 +28,7 @@ function Map() {
             that.layers[mapBox] = that.builder.buildMapBoxLayer();
             that.layers[ignMap] = that.builder.buildGeoportailLayer(ignMap);
             that.builder.addLayersToMap(that.map, that.layers);
+            that.layerControls = that.builder.addLayerControlsToMap(that.map, that.layers);
         },
 
         /**

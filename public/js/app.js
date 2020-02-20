@@ -19,7 +19,8 @@ function App() {
             that.map = new Map();
             that.map.init(
                 'main-map',
-                [45.12, 6.28]
+                [45.12, 6.28],
+                13
             );
         }
     };
