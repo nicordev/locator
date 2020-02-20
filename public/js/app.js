@@ -3,21 +3,19 @@ function App() {
     let that = {
         map: {},
         mapCommands: {
-            center: {
-                elements: {
-                    latitude: document.getElementById('command-center-latitude'),
-                    longitude: document.getElementById('command-center-longitude'),
-                    trigger: document.getElementById('command-center-button')
+            center: new Command(
+                (event, centerElements) => {
+                    that.map.setCenter([
+                        centerElements.latitude.value,
+                        centerElements.longitude.value
+                    ]);
                 },
-                init: () => {
-                    that.mapCommands.center.elements.trigger.addEventListener('click', () => {
-                        that.map.setCenter([
-                            that.mapCommands.center.elements.latitude.value,
-                            that.mapCommands.center.elements.longitude.value
-                        ]);
-                    });
+                document.getElementById('command-center-button'),
+                {
+                    latitude: document.getElementById('command-center-latitude'),
+                    longitude: document.getElementById('command-center-longitude')
                 }
-            },
+            ),
             zoom: new Command(
                 (event, zoomElement) => {
                     that.map.setZoom(zoomElement.value);
