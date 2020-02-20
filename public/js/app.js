@@ -17,7 +17,14 @@ function App() {
                         ]);
                     });
                 }
-            }
+            },
+            zoom: new Command(
+                (event, zoomElement) => {
+                    that.map.setZoom(zoomElement.value);
+                },
+                document.getElementById('command-zoom-button'),
+                document.getElementById('command-zoom-value')
+            )
         },
         init: () => {
             that.map = new Map();

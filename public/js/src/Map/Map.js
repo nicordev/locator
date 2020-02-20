@@ -5,7 +5,7 @@ function Map() {
         map: {},
         layers: {},
         layerControls: {},
-        zoom: 13,
+        zoom: null,
         center: null,
 
         init: (
@@ -15,6 +15,8 @@ function Map() {
             options = null
         ) => {
             that.element = document.getElementById(mapElementId);
+            that.center = centerLatLng;
+            that.zoom = zoom;
             that.map = that.builder.buildMap(
                 mapElementId, 
                 centerLatLng, 
