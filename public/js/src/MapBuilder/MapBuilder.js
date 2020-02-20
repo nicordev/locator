@@ -16,19 +16,17 @@ function MapBuilder() {
             options = null
         ) => L.map(mapElementId, options).setView(centerLatLng, zoom),
 
-        buildTileLayer: (
-            layerUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
-            layerOptions = {
-                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                maxZoom: 18,
-                id: 'mapbox.streets',
-                accessToken: 'pk.eyJ1Ijoibmljb3JkZXYiLCJhIjoiY2swbWNrNm1tMTI1MjNtbXpwZ2ZpcXJ6eCJ9.nEonoKrNrSnRZa0RpJz6XA' // My mapbox access token
-            }
-        ) => L.tileLayer(layerUrl, layerOptions),
+        buildTileLayer: (layerUrl, layerOptions) => L.tileLayer(layerUrl, layerOptions),
 
         addLayersToMap: (map, layers) => {
-            for (layer of layers) {
-                layer.addTo(map);
+            if (Array.isArray(layers)) {
+                for (let layer of layers) {
+                    layer.addTo(map);
+                }
+            } else {
+                for (let layer in layers) {
+                    layers[layer].addTo(map);
+                }
             }
         }
     }

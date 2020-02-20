@@ -12,16 +12,24 @@ html, body {
     z-index: 0;
 }
 
-.toolbox
+.commands
 {
     position: absolute;
-    top: 0;
+    bottom: 0;
     right: 0;
     z-index: 10000;
     background-color: rgba(0, 0, 0, 0.75);
     color: whitesmoke;
     padding: 25px;
-    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.command
+{
+    max-width: 500px;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 
 .hidden {
@@ -37,18 +45,6 @@ html, body {
 
 .expand-toggle:hover {
     cursor: pointer;
-}
-
-.commands
-{
-}
-
-.command
-{
-    max-width: 500px;
-    text-align: center;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
 }
 
 .btn {
