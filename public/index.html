@@ -17,8 +17,10 @@
     <div id="main-map"></div>
 
     <div class="commands">
-        <button class="btn btn-primary" id="geolocation-button" type="button">Locate me</button>
         <div class="command">
+            <div class="command-item">
+                <button class="btn btn-primary" id="command-geolocation-button" type="button">Locate me</button>
+            </div>
             <div class="command-item">
                 <label for="center-lat">Latitude</label>
                 <input type="text" class="command" id="command-center-latitude" value="44.95" placeholder="Latitude">
@@ -43,6 +45,7 @@
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
         integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
         crossorigin=""></script>
+    <script src="/js/src/Geolocator/Geolocator.js"></script>
     <script src="/js/src/Command/Command.js"></script>
     <script src="/js/src/MapBuilder/MapBuilder.js"></script>
     <script src="/js/src/Map/Map.js"></script>

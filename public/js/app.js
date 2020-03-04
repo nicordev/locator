@@ -1,6 +1,12 @@
 function App() {
 
     let that = {
+        geolocator: new Geolocator(),
+        geolocationOptions: {
+            enableHighAccuracy : true,
+            maximumAge : 0, // Maximum age in milliseconds of a possible cached position that is acceptable to return
+            timeout : 10000 // Maximum length of time in milliseconds the device is allowed to take in order to return a position
+        },
         map: {},
         mapCommands: {
             center: new Command(
@@ -22,6 +28,29 @@ function App() {
                 },
                 document.getElementById('command-zoom-button'),
                 document.getElementById('command-zoom-value')
+            ),
+            geolocate: new Command(
+                (event, buttonElement) => {
+                    if ('Stop' !== buttonElement.textContent) {
+                        buttonElement.textContent = 'Stop';
+                    } else {
+                        buttonElement.textContent = 'Locate me';
+                    }
+                    
+                    that.geolocator.toggleWatchPosition(
+                        (position) => {
+                            buttonElement.textContent = ('Stop');
+                            that.map.setCenter([position.coords.latitude, position.coords.longitude]);
+                            console.log('geolocation works!');
+                        },
+                        (position) => {
+                            console.log('geolocation failed...');
+                        },
+                        that.geolocationOptions
+                    );
+                },
+                document.getElementById('command-geolocation-button'),
+                document.getElementById('command-geolocation-button')
             )
         },
         init: () => {
@@ -31,13 +60,6 @@ function App() {
                 [45.12, 6.28],
                 13
             );
-            that.initMapCommands();
-        },
-
-        initMapCommands: () => {
-            for (let command in that.mapCommands) {
-                that.mapCommands[command].init();
-            }
         }
     };
 
