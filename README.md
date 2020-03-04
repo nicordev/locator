@@ -9,3 +9,8 @@ A website to draw things on a map, [here](http://locator.nicordev.com/index.html
 * Place markers
 * Show popups when clicking on markers
 * Geolocation
+
+## WIP
+
+* How to load only one layer on startup?
+    * Maybe load the other one only on selection in the control layer menu.
