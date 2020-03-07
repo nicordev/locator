@@ -1,4 +1,7 @@
 function MapBuilder() {
+
+    let layerControl = null;
+
     let that = {
         /**
          * Create a Leaflet map
@@ -18,6 +21,8 @@ function MapBuilder() {
 
         buildTileLayer: (layerUrl, layerOptions) => L.tileLayer(layerUrl, layerOptions),
 
+        addLayerToMap: (map, layer) => layer.addTo(map),
+
         addLayersToMap: (map, layers) => {
             if (Array.isArray(layers)) {
                 for (let layer of layers) {
@@ -29,8 +34,6 @@ function MapBuilder() {
                 }
             }
         },
-
-        addLayerControlsToMap: (map, layers) => L.control.layers(layers).addTo(map),
 
         buildMapBoxLayer: () => {
             let layerUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}';
@@ -68,6 +71,16 @@ function MapBuilder() {
             };
 
             return that.buildTileLayer(url, options);
+        },
+
+        // Layer control
+        
+        createLayerControl: () => layerControl = L.control.layers(),
+
+        addLayerControlToMap: (map) => layerControl.addTo(map),
+
+        addBaseLayerToLayerControl: (layer, layerName) => {
+            layerControl.addBaseLayer(layer, layerName);
         }
     }
 

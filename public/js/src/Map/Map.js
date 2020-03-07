@@ -1,68 +1,44 @@
 function Map() {
-    let that = {
-        element: {},
-        builder: new MapBuilder(),
-        map: {},
-        layers: {},
-        layerControls: {},
-        zoom: null,
-        center: null,
+    const mapBuilder = new MapBuilder();
+    let element = null;
+    let map = null;
+    let layers = [];
+    let layerControl = null;
+    let zoom = null;
+    let center = null;
 
-        init: (
-            mapElementId,
-            centerLatLng,
-            zoom = 13,
-            options = null
-        ) => {
-            that.element = document.getElementById(mapElementId);
-            that.center = centerLatLng;
-            that.zoom = zoom;
-            that.map = that.builder.buildMap(
-                mapElementId, 
-                centerLatLng, 
-                zoom, 
-                options
-            );
+    this.init = (
+        mapElementId,
+        centerLatLng,
+        zoom = 13,
+        options = null
+    ) => {
+        element = document.getElementById(mapElementId);
+        center = centerLatLng;
+        zoom = zoom;
+        map = builder.buildMap(
+            mapElementId, 
+            centerLatLng, 
+            zoom, 
+            options
+        );
 
-            let ignMap = 'ignMap';
-            let mapBox = 'mapBox';
+        layers[mapBox] = builder.buildMapBoxLayer();
+        builder.addLayersToMap(map, layers);
+        layerControls = builder.addLayerControlsToMap(map, layers);
+    };
 
-            that.layers[mapBox] = that.builder.buildMapBoxLayer();
-            that.layers[ignMap] = that.builder.buildGeoportailLayer(ignMap);
-            that.builder.addLayersToMap(that.map, that.layers);
-            that.layerControls = that.builder.addLayerControlsToMap(that.map, that.layers);
-        },
+    this.addIgnLayer = () => {
+        let ignMap = 'ignMap';
 
-        /**
-         * Center the map on a position
-         *
-         * @param map
-         * @param latlng
-         * @param zoom
-         */
-        setCenter: function (centerLatLng) {
-            that.center = centerLatLng;
-            that.map.setView(
-                centerLatLng,
-                that.zoom
-            );
-        },
-
-        /**
-         * Zoom the map
-         *
-         * @param map
-         * @param latlng
-         * @param zoom
-         */
-        setZoom: function (zoom) {
-            that.zoom = zoom;
-            that.map.setView(
-                that.center,
-                zoom
-            );
-        }
+        layers[ignMap] = builder.buildGeoportailLayer(ignMap);
+        builder.addLayerToMap(map, layers[ignMap]);
     }
 
-    return that;
+    this.addMapBoxLayer = () => {
+        let mapBox = 'mapBox';
+
+        layers[mapBox] = builder.buildGeoportailLayer(mapBox);
+        builder.addLayerToMap(map, layers[mapBox]);
+    }
 }
