@@ -7,53 +7,30 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Locator</title>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+<!-- 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
         integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
         crossorigin="" />
-    <link rel="stylesheet" href="css/style.css">
+     -->
+     <link rel="stylesheet" href="./css/leaflet.css">
+    <link rel="stylesheet" href="./css/locator.css">
 </head>
 
 <body>
-    <div id="main-map"></div>
-
-    <div class="commands">
-        <div class="command">
-            <div class="command-item">
-                <button class="btn btn-primary" id="command-geolocation-button" type="button">Locate me</button>
-            </div>
-            <div class="command-item">
-                <label for="center-lat">Latitude</label>
-                <input type="text" class="command" id="command-center-latitude" value="44.95" placeholder="Latitude">
-            </div>
-            <div class="command-item">
-                <label for="center-lat">Longitude</label>
-                <input type="text" class="command" id="command-center-longitude" value="6.28" placeholder="Longitude">
-            </div>
-            <div class="command-item">
-                <button type="button" class="btn" id="command-center-button">Center</button>
-            </div>
-            <div class="command-item">
-                <label for="command-zoom-input">Zoom</label>
-                <input type="text" class="command" id="command-zoom-value" value="13" placeholder="Zoom">
-            </div>
-            <div class="command-item">
-                <button type="button" class="btn" id="command-zoom-button">Zoom</button>
-            </div>
-        </div>
+    <div class="container">
+        <div id="map"></div>
+        <div class="command top-left"></div>
+        <div class="command top-right"></div>
+        <div class="command bottom-right"></div>
+        <div class="menu hidden"></div>
     </div>
-
+<!-- 
     <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
         integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
         crossorigin=""></script>
-    <script src="/js/src/Geolocator/Geolocator.js"></script>
-    <script src="/js/src/Command/Command.js"></script>
-    <script src="/js/src/MapBuilder/MapBuilder.js"></script>
-    <script src="/js/src/Map/Map.js"></script>
-    <script src="/js/app.js"></script>
-    <script>
-        let app = new App();
-        app.init();
-    </script>
+     -->
+    <script src="./js/leaflet/leaflet.js"></script>
+    <script type="module" src="./js/index.js"></script>
 </body>
 
 </html>
