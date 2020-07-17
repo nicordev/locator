@@ -37,3 +37,9 @@ export const createGeoportailLayer = (layer = 'ignMap') => {
 
     return createLeafletTileLayer(url, options);
 }
+
+export const createOpenStreetMapLayer = () => {
+    return createLeafletTileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    });
+}

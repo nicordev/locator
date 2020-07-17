@@ -1,5 +1,6 @@
-import { createLeafletMap, addLeafletTileLayerToMap, addMarkerToMap } from './leaflet_handler/leaflet_handler.js'
+import { createLeafletMap, addLeafletTileLayerToMap } from './leaflet_handler/leaflet_handler.js'
 import { createMapBoxLayer, createGeoportailLayer } from './layers/layers.js'
+import { addWaypointToMap } from './waypoint/waypoint.js'
 
 export const build = () => {
     const map = createLeafletMap(
@@ -13,10 +14,8 @@ export const build = () => {
     };
 
     addLeafletTileLayerToMap(map, tileLayers.mapBox);
+
     map.on('dblclick', function (event) {
-        const marker = addMarkerToMap(map, event.latlng);
-        marker.addEventListener('click', () => console.log('click on a marker'));
-        marker.addEventListener('contextmenu', () => marker.remove());
-        marker.addEventListener('dblclick', () => console.log('dbl click on a marker'));
+        addWaypointToMap(event, map);
     });
 }

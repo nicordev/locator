@@ -13,4 +13,24 @@ export const addLeafletTileLayerToMap = (map, layer) => {
 
 export const removeLeafletLayerFromMap = (map, layer) => map.removeLayer(layer);
 
-export const addMarkerToMap = (map, markerLatLng) => L.marker(markerLatLng).addTo(map);
+export const addMarkerToMap = (map, markerLatLng, options = null) => L.marker(markerLatLng, options).addTo(map);
+
+export const createMarkerIcon = (
+    iconUrl, 
+    iconSize, 
+    iconAnchor, 
+    popupAnchor = null,
+    shadowUrl = null, 
+    shadowSize = null, 
+    shadowAnchor = null
+) => L.icon({
+    iconUrl,
+    shadowUrl,
+    iconSize,
+    shadowSize,
+    iconAnchor,
+    shadowAnchor,
+    popupAnchor
+});
+
+export const createDivIcon = (options) => L.divIcon(options);

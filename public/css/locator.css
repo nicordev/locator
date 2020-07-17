@@ -1,12 +1,14 @@
-body {
+html, body {
     background-color: black;
+    margin: 0;
+    height: 100%;
 }
 
 .container {
     background-color: blanchedalmond;
     position: relative;
-    width: 500px;
-    height: 500px;
+    width: 100%;
+    height: 100%;
     margin: auto;
 }
 
