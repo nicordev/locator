@@ -34,3 +34,8 @@ export const createMarkerIcon = (
 });
 
 export const createDivIcon = (options) => L.divIcon(options);
+
+export const addPopupToMap = (map, latlng, content) => L.popup()
+    .setLatLng(latlng)
+    .setContent(content)
+    .openOn(map);

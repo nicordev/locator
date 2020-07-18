@@ -2,20 +2,31 @@ import { createLeafletMap, addLeafletTileLayerToMap } from './leaflet_handler/le
 import { createMapBoxLayer, createGeoportailLayer } from './layers/layers.js'
 import { addWaypointToMap } from './waypoint/waypoint.js'
 
-export const build = () => {
+export const build = (mapContainerId) => {
+    const mapElement = document.querySelector(`#${mapContainerId} .map`);
     const map = createLeafletMap(
-        'map', 
+        mapElement, 
         [45.743, 4.8476],
         13, 
         {doubleClickZoom: false}
     );
     const tileLayers = {
-        mapBox: createMapBoxLayer()
+        mapBox: createMapBoxLayer(),
+        ignMap: createGeoportailLayer('ignMap'),
+        ign25000: createGeoportailLayer('ign25000'),
+        ignPhoto: createGeoportailLayer('ignPhoto'),
     };
 
-    addLeafletTileLayerToMap(map, tileLayers.mapBox);
+    initializeMenu(mapContainerId);
+
+    addLeafletTileLayerToMap(map, tileLayers.ignMap);
 
     map.on('dblclick', function (event) {
         addWaypointToMap(event, map);
     });
+}
+
+const initializeMenu = (mapContainerId) => {
+    const menuElement = document.querySelector(`#${mapContainerId} .menu`);
+    console.log(menuElement)
 }

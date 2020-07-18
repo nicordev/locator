@@ -1,0 +1,1 @@
+export const geoportailApiKey = 'k81gswufyozu38e49nfkcepg';

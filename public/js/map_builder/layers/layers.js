@@ -1,4 +1,5 @@
 import { createLeafletTileLayer } from '../leaflet_handler/leaflet_handler.js'
+import { geoportailApiKey } from '../../../../config/config.js'
 
 export const createMapBoxLayer = () => {
     let layerUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}';
@@ -13,13 +14,12 @@ export const createMapBoxLayer = () => {
 }
 
 export const createGeoportailLayer = (layer = 'ignMap') => {
-    let apiKey = "k81gswufyozu38e49nfkcepg";
     let availableLayers = {
         ignMap: "GEOGRAPHICALGRIDSYSTEMS.MAPS",
         ign25000: "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.STANDARD",
         ignPhoto: "ORTHOIMAGERY.ORTHOPHOTOS"
     };
-    let url = "https://wxs.ign.fr/" + apiKey + "/geoportail/wmts?" +
+    let url = "https://wxs.ign.fr/" + geoportailApiKey + "/geoportail/wmts?" +
     "&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0" +
     "&STYLE=normal" +
     "&TILEMATRIXSET=PM" +
