@@ -16,7 +16,7 @@ export const createMapBoxLayer = () => {
 export const createGeoportailLayer = (layer = 'ignMap') => {
     let availableLayers = {
         ignMap: "GEOGRAPHICALGRIDSYSTEMS.MAPS",
-        ign25000: "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.STANDARD",
+        ignExpress: "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.STANDARD",
         ignPhoto: "ORTHOIMAGERY.ORTHOPHOTOS"
     };
     let url = "https://wxs.ign.fr/" + geoportailApiKey + "/geoportail/wmts?" +

@@ -1,8 +1,21 @@
-import { createLeafletMap, addLeafletTileLayerToMap } from './leaflet_handler/leaflet_handler.js'
+import { createLeafletMap, addLeafletTileLayerToMap, removeLeafletLayerFromMap } from './leaflet_handler/leaflet_handler.js'
 import { createMapBoxLayer, createGeoportailLayer } from './layers/layers.js'
 import { addWaypointToMap } from './waypoint/waypoint.js'
+import { initializeMenu } from './menu/menu.js'
 
 export const build = (mapContainerId) => {
+
+    const setActiveLayer = (selectedLayerName) => {
+        for (let layerName in tileLayers) {
+            if (selectedLayerName === layerName) {
+                addLeafletTileLayerToMap(map, tileLayers[layerName]);
+                return true;
+            }
+
+            removeLeafletLayerFromMap(map, tileLayers[layerName]);
+        }
+    }
+
     const mapElement = document.querySelector(`#${mapContainerId} .map`);
     const map = createLeafletMap(
         mapElement, 
@@ -13,20 +26,14 @@ export const build = (mapContainerId) => {
     const tileLayers = {
         mapBox: createMapBoxLayer(),
         ignMap: createGeoportailLayer('ignMap'),
-        ign25000: createGeoportailLayer('ign25000'),
+        ignExpress: createGeoportailLayer('ignExpress'),
         ignPhoto: createGeoportailLayer('ignPhoto'),
     };
 
-    initializeMenu(mapContainerId);
-
-    addLeafletTileLayerToMap(map, tileLayers.ignMap);
+    initializeMenu(mapContainerId, setActiveLayer);
+    setActiveLayer('ignMap');
 
     map.on('dblclick', function (event) {
         addWaypointToMap(event, map);
     });
-}
-
-const initializeMenu = (mapContainerId) => {
-    const menuElement = document.querySelector(`#${mapContainerId} .menu`);
-    console.log(menuElement)
 }

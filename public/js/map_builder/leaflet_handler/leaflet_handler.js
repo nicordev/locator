@@ -7,9 +7,7 @@ export const createLeafletMap = (
 
 export const createLeafletTileLayer = (layerUrl, layerOptions) => L.tileLayer(layerUrl, layerOptions);
 
-export const addLeafletTileLayerToMap = (map, layer) => {
-    layer.addTo(map);
-}
+export const addLeafletTileLayerToMap = (map, layer) => layer.addTo(map);
 
 export const removeLeafletLayerFromMap = (map, layer) => map.removeLayer(layer);
 
