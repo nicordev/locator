@@ -5,6 +5,8 @@ export const createLeafletMap = (
     options = null
 ) => L.map(mapElementId, options).setView(centerLatLng, zoom);
 
+export const centerMap = (map, centerLatLng) => map.setView(centerLatLng, map.getZoom());
+
 export const createLeafletTileLayer = (layerUrl, layerOptions) => L.tileLayer(layerUrl, layerOptions);
 
 export const addLeafletTileLayerToMap = (map, layer) => layer.addTo(map);
@@ -12,6 +14,8 @@ export const addLeafletTileLayerToMap = (map, layer) => layer.addTo(map);
 export const removeLeafletLayerFromMap = (map, layer) => map.removeLayer(layer);
 
 export const addMarkerToMap = (map, markerLatLng, options = null) => L.marker(markerLatLng, options).addTo(map);
+
+export const createMarker = (markerLatLng, options) => L.marker(markerLatLng, options);
 
 export const createMarkerIcon = (
     iconUrl, 

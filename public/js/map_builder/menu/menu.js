@@ -1,7 +1,11 @@
-export const initializeMenu = (mapContainerId, selectedLayerCallback) => {
+import { startGeolocation, stopGeolocation } from '../../geolocation/geolocation.js'
+import { centerMap } from '../leaflet_handler/leaflet_handler.js'
+
+export const initializeMenu = (mapContainerId, selectedLayerCallback, geolocationSuccessCallback) => {
     const menuElement = selectElementInsideMapContainer(mapContainerId, '.menu');
 
     initializeShowMenuButton(mapContainerId, menuElement);
+    initializeLocateUserButton(mapContainerId, geolocationSuccessCallback);
 
     const layerSelectorElement = selectElementInsideMapContainer(mapContainerId, '.layer-selector');
 
@@ -28,14 +32,31 @@ export const showElement = (element) => {
 const initializeShowMenuButton = (mapContainerId, menuElement) => {
     const showMenuButtonElement = selectElementInsideMapContainer(mapContainerId, '.show-menu-button');
     
-    showMenuButtonElement.addEventListener('click', () => {
+    showMenuButtonElement.addEventListener('click', function () {
         if (isHidden(menuElement)) {
             showElement(menuElement);
-            showMenuButtonElement.style.backgroundColor = 'rgb(132, 35, 35)';
+            this.classList.add('command-selected');
         } else {
             hideElement(menuElement);
-            showMenuButtonElement.style.backgroundColor = 'rgb(42, 99, 191, 0.5)';
+            this.classList.remove('command-selected');
         }
     });
 }
 
+const initializeLocateUserButton = (mapContainerId, geolocationSuccessCallback) => {
+    const locateUserButtonElement = selectElementInsideMapContainer(mapContainerId, '.locate-user-button');
+    let geolocationId = null;
+
+    locateUserButtonElement.addEventListener('click', function () {
+        if (this.classList.contains('command-selected')) {
+            this.classList.remove('command-selected');
+            stopGeolocation(geolocationId);
+        } else {
+            this.classList.add('command-selected');
+            geolocationId = startGeolocation(
+                geolocationSuccessCallback, 
+                () => console.log('Failed to locate user.')
+            );
+        }
+    });
+}

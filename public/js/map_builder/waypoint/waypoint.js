@@ -1,5 +1,5 @@
 import { addMarkerToMap, addPopupToMap } from '../leaflet_handler/leaflet_handler.js'
-import { geoportailApiKey } from '../../../../config/config.js'
+import { geoportailApiKey } from '../../../config/config.js'
 
 export const addWaypointToMap = (event, map) => {
     const marker = addMarkerToMap(map, event.latlng, { icon: greenArrowDownIcon });

@@ -38,6 +38,10 @@ html, body {
     z-index: 10000;
 }
 
+.command-selected {
+    background-color: rgb(132, 35, 35);
+}
+
 .top-left {
     left: 1rem;
     top: 1rem;
@@ -56,4 +60,12 @@ html, body {
 .bottom-right {
     right: 1rem;
     bottom: 1rem;
+}
+
+.user-icon {
+    height: 2em !important;
+    width: 2em !important;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    border: 3px solid rgb(42, 99, 191, 0.5);
 }

@@ -1,5 +1,5 @@
 import { createLeafletTileLayer } from '../leaflet_handler/leaflet_handler.js'
-import { geoportailApiKey } from '../../../../config/config.js'
+import { geoportailApiKey } from '../../../config/config.js'
 
 export const createMapBoxLayer = () => {
     let layerUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}';
