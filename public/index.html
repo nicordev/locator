@@ -20,13 +20,19 @@
         <div class="command top-right show-menu-button"></div>
         <div class="command bottom-right locate-user-button"></div>
         <div class="menu hidden">
-            <input type="text" placeholder="search">
-            <select class="layer-selector" name="layer" id="">
-                <option value="mapBox">MapBox</option>
-                <option value="ignMap" selected="selected">IGN</option>
-                <option value="ignExpress">IGN express</option>
-                <option value="ignPhoto">IGN photo</option>
-            </select>
+            <section class="menu-commands">
+                <div class="menu-command">
+                    <input type="text" placeholder="search">
+                </div>
+                <div class="menu-command">
+                    <select class="layer-selector" name="layer" id="">
+                        <option value="mapBox">MapBox</option>
+                        <option value="ignMap" selected="selected">IGN</option>
+                        <option value="ignExpress">IGN express</option>
+                        <option value="ignPhoto">IGN photo</option>
+                    </select>
+                </div>
+            </section>
         </div>
     </div>
     <script src="./js/leaflet/leaflet.js"></script>

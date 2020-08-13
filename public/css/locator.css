@@ -25,6 +25,10 @@ html, body {
     z-index: 1000;
 }
 
+.menu-commands {
+    margin: 1em;
+}
+
 .hidden {
     display: none;
 }
