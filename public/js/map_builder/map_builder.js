@@ -5,7 +5,7 @@ import {
 } from './leaflet_handler/leaflet_handler.js';
 import { createMapBoxLayer, createGeoportailLayer } from './layers/layers.js';
 import { addWaypointToMap } from './waypoint/waypoint.js';
-import { initializeMenu } from './menu/menu.js';
+import { initializeMenu } from './user_interface/user_interface.js';
 import { UserLocator } from './UserLocator/UserLocator.js';
 
 export const build = (mapContainerId, mapCenter) => {

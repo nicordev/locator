@@ -17,15 +17,15 @@
 <body>
     <div id="my-map" class="map-container">
         <div class="map"></div>
-        <div class="command top-right show-menu-button"></div>
+        <div class="command top-right command-selected show-menu-button"></div>
         <div class="command bottom-right locate-user-button"></div>
         <div id="info-box" class="info-box bottom-left hidden"></div>
-        <div class="menu hidden">
+        <div class="menu">
             <section class="menu-commands">
                 <div id="search-component" class="menu-command">
                     <input id="search-criteria" type="text" placeholder="search">
                     <button id="search-button">Search</button>
-                    <div id="search-result"></div>
+                    <div id="search-results" class="search-results"></div>
                 </div>
                 <div class="menu-command">
                     <select class="layer-selector" name="layer" id="">
