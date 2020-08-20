@@ -5,16 +5,13 @@ A website to draw things on a map, [here](http://locator.nicordev.com/index.html
 ## Current features
 
 * Show a map using [Leaflet](https://leafletjs.com/) and [MapBox](https://www.mapbox.com/)
-* Draw circles
-* Place markers
-* Show popups when clicking on markers
 * Geolocation
+- Place waypoints
 
 ## WIP
 
 Home:
 - Search bar.
-- Locate user.
 
 Menu:
 - Show waypoint list:
@@ -30,3 +27,8 @@ Map:
         - A point.
     - Using a polyline.
 - Preload tiles.
+- Add openstreetmap layer.
+
+Backend:
+- Add a script to update prod.
+- Save waypoints.
