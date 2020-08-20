@@ -105,9 +105,7 @@ const search = (criteria) => {
     fetch(query)
         .then((response) => response.json())
         .then((results) => {
-            const searchResultElement = document.getElementById('search-result');
-
-            console.log(results);
+            const searchResultElement = document.getElementById('search-results');
     
             searchResultElement.innerHTML = '';
     
@@ -124,6 +122,7 @@ const search = (criteria) => {
 
 const createResultItem = (result) => {
     const resultItemElement = document.createElement('div');
+    resultItemElement.classList.add('search-result');
     resultItemElement.textContent = `${result.display_name} ${result.lat} ${result.lon}`;
     
     return resultItemElement
