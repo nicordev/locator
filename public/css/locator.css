@@ -25,6 +25,10 @@ html, body {
     z-index: 1000;
 }
 
+.menu-commands {
+    margin: 1em;
+}
+
 .hidden {
     display: none;
 }
@@ -40,6 +44,14 @@ html, body {
 
 .command-selected {
     background-color: rgb(132, 35, 35);
+}
+
+.info-box {
+    z-index: 10000;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: whitesmoke;
+    padding: 1em;
 }
 
 .top-left {

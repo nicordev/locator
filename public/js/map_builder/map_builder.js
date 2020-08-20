@@ -32,7 +32,7 @@ export const build = (mapContainerId, mapCenter) => {
     };
     const userLocator = new UserLocator(map);
 
-    initializeMenu(mapContainerId, setActiveLayer, userLocator.showUserOnMap);
+    initializeMenu(map, mapContainerId, setActiveLayer, userLocator.showUserOnMap);
     setActiveLayer('ignMap');
 
     map.on('dblclick', function (event) {
