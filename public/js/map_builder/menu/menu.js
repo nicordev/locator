@@ -90,6 +90,15 @@ const initializeLocateUserButton = (
     });
 };
 
+const initializeSearchBar = () => {
+    const searchInputElement = document.getElementById('search-criteria');
+    const searchButtonElement = document.getElementById('search-button');
+
+    searchButtonElement.addEventListener('click', function () {
+        search(searchInputElement.value);
+    });
+};
+
 const search = (criteria) => {
     const query = `https://nominatim.openstreetmap.org/search?q=${criteria}&format=json`;
 
@@ -111,15 +120,6 @@ const search = (criteria) => {
                 searchResultElement.appendChild(createResultItem(result));
             }
         });
-};
-
-const initializeSearchBar = () => {
-    const searchInputElement = document.getElementById('search-criteria');
-    const searchButtonElement = document.getElementById('search-button');
-
-    searchButtonElement.addEventListener('click', function () {
-        search(searchInputElement.value);
-    });
 };
 
 const createResultItem = (result) => {

@@ -46,6 +46,13 @@ html, body {
     background-color: rgb(132, 35, 35);
 }
 
+.info-box {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: whitesmoke;
+    padding: 1em;
+}
+
 .top-left {
     left: 1rem;
     top: 1rem;
