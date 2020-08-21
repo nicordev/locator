@@ -3,6 +3,7 @@ import {
     createDivIcon,
     createMarker
 } from '../leaflet_handler/leaflet_handler.js';
+import { displayInfoBox } from '../user_interface/user_interface.js'
 
 export function UserLocator(map) {
     let userMarker = createMarker([0, 0], {
@@ -10,14 +11,14 @@ export function UserLocator(map) {
     });
     let fullUserCoordinates = {};
     let userLatLng = {};
-    const infoBoxElement = document.getElementById('info-box');
+    const userInfoBoxElement = document.getElementById('info-box-user');
 
     const showUserCoordinates = (userLatLng, accuracy) => {
-        infoBoxElement.innerHTML = '';
-        infoBoxElement.appendChild(createInfoBoxItem("You're here:"));
-        infoBoxElement.appendChild(createInfoBoxItem(`Latitude: ${userLatLng.lat.toFixed(4)}`));
-        infoBoxElement.appendChild(createInfoBoxItem(`Longitude: ${userLatLng.lng.toFixed(4)}`));
-        infoBoxElement.appendChild(createInfoBoxItem(`Precision: ${accuracy.toFixed(0)} m`));
+        userInfoBoxElement.innerHTML = '';
+        userInfoBoxElement.appendChild(createInfoBoxItem("You're here:"));
+        userInfoBoxElement.appendChild(createInfoBoxItem(`Latitude: ${userLatLng.lat.toFixed(4)}`));
+        userInfoBoxElement.appendChild(createInfoBoxItem(`Longitude: ${userLatLng.lng.toFixed(4)}`));
+        userInfoBoxElement.appendChild(createInfoBoxItem(`Precision: ${accuracy.toFixed(0)} m`));
     }
 
     const createInfoBoxItem = (textContent) => {
@@ -26,12 +27,6 @@ export function UserLocator(map) {
         
         return itemElement;
     };
-
-    const hideInfoBox = function () {
-        this.classList.add('hidden');
-    }
-
-    infoBoxElement.addEventListener('dblclick', hideInfoBox);
 
     this.showUserOnMap = function (geolocationData) {
         fullUserCoordinates = geolocationData.coords;
@@ -42,7 +37,7 @@ export function UserLocator(map) {
         
         userMarker.setLatLng(userLatLng);
         userMarker.addEventListener('click', function () {
-            infoBoxElement.classList.remove('hidden');
+            displayInfoBox();
             showUserCoordinates(userLatLng, fullUserCoordinates.accuracy);
         });
         userMarker.remove();
