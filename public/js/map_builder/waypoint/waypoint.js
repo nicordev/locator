@@ -1,5 +1,6 @@
-import { addMarkerToMap, openPopupOnMap, createPopup } from '../leaflet_handler/leaflet_handler.js'
+import { addMarkerToMap, openPopupOnMap, createPopup, createThenOpenPopupToMap } from '../leaflet_handler/leaflet_handler.js'
 import { geoportailApiKey } from '../../../config/config.js'
+import { displayInfoBox } from '../user_interface/user_interface.js'
 
 export const addWaypointToMap = (event, map) => {
     const marker = addMarkerToMap(map, event.latlng, { icon: greenArrowDownIcon });
@@ -10,29 +11,29 @@ export const addWaypointToMap = (event, map) => {
 };
 
 const showWaypointData = (event, marker, map) => {
+    const waypointInfoBoxElement = document.getElementById('info-box-waypoint');
     const latitude = marker.getLatLng().lat.toPrecision(5);
     const longitude = marker.getLatLng().lng.toPrecision(5);
     let altitude = '';
-
-    // WIP
     
     // fetchAltitudeFromIgn(latitude, longitude, function (ignData) {
     //     console.log(ignData);
     // });
-    
-    const popupContent = createWaypointPopupContent(latitude, longitude, altitude, marker);
-    const popup = createPopup(marker.getLatLng, popupContent, marker);
 
-    console.log({popup, popupContent})
+    waypointInfoBoxElement.innerHTML = '';
+    waypointInfoBoxElement.appendChild(createWaypointPopupContent(latitude, longitude, altitude, marker));
 
-    openPopupOnMap(map, popup);
+    displayInfoBox();
 }
 
 const createWaypointPopupContent = function (latitude, longitude, altitude, waypointMarker) {
+    const contentElement = document.createElement('div');
+    const coordinatesElement = document.createElement('div');
+
     const createCoordinateElement = function (content) {
         const coordinateElement = document.createElement('div');
-        coordinatesElement.textContent = content;
-
+        coordinateElement.textContent = content;
+        
         return coordinateElement;
     }
 
@@ -42,24 +43,22 @@ const createWaypointPopupContent = function (latitude, longitude, altitude, wayp
         removeButtonElement.addEventListener('click', function () {
             this.remove();
             waypointMarker.remove();
+            coordinatesElement.remove();
         });
 
         return removeButtonElement;
     }
 
-    const contentElement = document.createElement('div');
-    const coordinatesElement = document.createElement('div');
-
     coordinatesElement.appendChild(createCoordinateElement(`lat: ${Number(latitude).toFixed(4)}`));
     coordinatesElement.appendChild(createCoordinateElement(`long: ${Number(longitude).toFixed(4)}`));
-
+    
     if (altitude) {
         coordinatesElement.appendChild(createCoordinateElement(`alt: ${altitude.toFixed(0)} m`));
     }
-
+    
     contentElement.appendChild(coordinatesElement);
     contentElement.appendChild(createRemoveButtonElement());
-
+    
     return contentElement;
 }
 

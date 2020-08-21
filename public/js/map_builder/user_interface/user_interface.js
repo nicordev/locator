@@ -4,6 +4,22 @@ import {
 } from '../../geolocation/geolocation.js';
 import { centerMap } from '../leaflet_handler/leaflet_handler.js';
 
+export const showInfoBoxDisplay = () => {
+    const infoBoxElement = document.getElementById('info-box');
+
+    if (infoBoxElement.classList.contains('hidden')) {
+        infoBoxElement.classList.remove('hidden');
+        return;
+    }
+
+    infoBoxElement.classList.add('hidden');
+}
+
+export const displayInfoBox = () => {
+    const infoBoxElement = document.getElementById('info-box');
+    infoBoxElement.classList.remove('hidden');
+}
+
 export const initializeMenu = (
     map,
     mapContainerId,
@@ -14,8 +30,9 @@ export const initializeMenu = (
         mapContainerId,
         '.menu'
     );
-
+    
     initializeShowMenuButton(mapContainerId, menuElement);
+    initializeInfoBox();
     initializeLocateUserButton(mapContainerId, geolocationSuccessCallback);
 
     const layerSelectorElement = selectElementInsideMapContainer(
@@ -66,6 +83,16 @@ const initializeShowMenuButton = (mapContainerId, menuElement) => {
         }
     });
 };
+
+const hideCurrentElement = function () {
+    this.classList.add('hidden');
+}
+
+const initializeInfoBox = () => {
+    const infoBoxElement = document.getElementById('info-box');
+
+    infoBoxElement.addEventListener('dblclick', hideCurrentElement);
+}
 
 const initializeLocateUserButton = (
     mapContainerId,
