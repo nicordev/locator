@@ -37,7 +37,13 @@ export const createMarkerIcon = (
 
 export const createDivIcon = (options) => L.divIcon(options);
 
-export const addPopupToMap = (map, latlng, content) => L.popup()
+export const createPopup = (latlng, content) => L.popup()
+    .setLatLng(latlng)
+    .setContent(content);
+
+export const openPopupOnMap = (map, popup) => popup.openOn(map);
+
+export const createThenOpenPopupToMap = (map, latlng, content) => L.popup()
     .setLatLng(latlng)
     .setContent(content)
     .openOn(map);
