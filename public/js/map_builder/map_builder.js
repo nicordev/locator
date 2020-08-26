@@ -37,13 +37,14 @@ export const build = (mapContainerId, mapCenter) => {
         map,
         mapContainerId,
         selectedLayerCallback: setActiveLayer,
-        geolocationSuccessCallback: userLocator.showUserOnMap
+        geolocationSuccessCallback: userLocator.showUserOnMap,
+        waypoints: {}
     }
 
     initializeMenu(state);
     setActiveLayer('ignMap');
 
     map.on('dblclick', function (event) {
-        addWaypointToMap(event, map);
+        addWaypointToMap(event, state);
     });
 };
