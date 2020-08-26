@@ -13,24 +13,25 @@ export const showInfoBoxDisplay = () => {
     }
 
     infoBoxElement.classList.add('hidden');
-}
+};
 
 export const displayInfoBox = () => {
     const infoBoxElement = document.getElementById('info-box');
     infoBoxElement.classList.remove('hidden');
-}
+};
 
-export const initializeMenu = (
-    map,
-    mapContainerId,
-    selectedLayerCallback,
-    geolocationSuccessCallback
-) => {
+export const initializeMenu = (state) => {
+    const {
+        map,
+        mapContainerId,
+        selectedLayerCallback,
+        geolocationSuccessCallback,
+    } = state;
     const menuElement = selectElementInsideMapContainer(
         mapContainerId,
         '.menu'
     );
-    
+
     initializeShowMenuButton(mapContainerId, menuElement);
     initializeInfoBox();
     initializeLocateUserButton(mapContainerId, geolocationSuccessCallback);
@@ -86,13 +87,13 @@ const initializeShowMenuButton = (mapContainerId, menuElement) => {
 
 const hideCurrentElement = function () {
     this.classList.add('hidden');
-}
+};
 
 const initializeInfoBox = () => {
     const infoBoxElement = document.getElementById('info-box');
 
     infoBoxElement.addEventListener('dblclick', hideCurrentElement);
-}
+};
 
 const initializeLocateUserButton = (
     mapContainerId,
@@ -132,15 +133,17 @@ const search = (criteria) => {
     fetch(query)
         .then((response) => response.json())
         .then((results) => {
-            const searchResultElement = document.getElementById('search-results');
-    
+            const searchResultElement = document.getElementById(
+                'search-results'
+            );
+
             searchResultElement.innerHTML = '';
-    
+
             if (results.length === 0) {
                 searchResultElement.textContent = 'Nothing found.';
                 return;
             }
-    
+
             for (let result of results) {
                 searchResultElement.appendChild(createResultItem(result));
             }
@@ -151,6 +154,6 @@ const createResultItem = (result) => {
     const resultItemElement = document.createElement('div');
     resultItemElement.classList.add('search-result');
     resultItemElement.textContent = `${result.display_name} ${result.lat} ${result.lon}`;
-    
-    return resultItemElement
+
+    return resultItemElement;
 };
