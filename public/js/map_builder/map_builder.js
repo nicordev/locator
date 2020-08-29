@@ -9,14 +9,14 @@ import { initializeMenu } from './user_interface/user_interface.js';
 import { UserLocator } from './UserLocator/UserLocator.js';
 
 export const build = (mapContainerId, mapCenter) => {
+
     const setActiveLayer = (selectedLayerName) => {
         for (let layerName in tileLayers) {
             if (selectedLayerName === layerName) {
                 addLeafletTileLayerToMap(map, tileLayers[layerName]);
-                return true;
+            } else {
+                removeLeafletLayerFromMap(map, tileLayers[layerName]);
             }
-
-            removeLeafletLayerFromMap(map, tileLayers[layerName]);
         }
     };
 
@@ -32,10 +32,19 @@ export const build = (mapContainerId, mapCenter) => {
     };
     const userLocator = new UserLocator(map);
 
-    initializeMenu(map, mapContainerId, setActiveLayer, userLocator.showUserOnMap);
+    const state = {
+        tileLayers,
+        map,
+        mapContainerId,
+        selectedLayerCallback: setActiveLayer,
+        geolocationSuccessCallback: userLocator.showUserOnMap,
+        waypoints: {}
+    }
+
+    initializeMenu(state);
     setActiveLayer('ignMap');
 
     map.on('dblclick', function (event) {
-        addWaypointToMap(event, map);
+        addWaypointToMap(event, state);
     });
 };
