@@ -38,6 +38,14 @@ const showWaypointData = (waypoint, state) => {
     const latitude = marker.getLatLng().lat.toPrecision(5);
     const longitude = marker.getLatLng().lng.toPrecision(5);
     let altitude = '';
+
+    if (state.activeWaypoint instanceof Waypoint) {
+        state.activeWaypoint.getMarker().setIcon(greenArrowDownIcon);
+    }
+
+    state.activeWaypoint = waypoint;
+
+    marker.setIcon(greenOrangeArrowDownIcon);
     
     // fetchAltitudeFromIgn(latitude, longitude, function (ignData) {
     //     console.log(ignData);
@@ -97,6 +105,14 @@ const debug = (event, waypoint, state) => {
 const greenArrowDownIcon = L.icon({
     iconUrl: './image/marker_green_arrow_down.png',
     iconRetinaUrl: './image/marker_green_arrow_down.png',
+    iconSize: [20, 20],
+    iconAnchor: [10, 20],
+    popupAnchor: [0, -14]
+});
+
+const greenOrangeArrowDownIcon = L.icon({
+    iconUrl: './image/marker_green_orange_arrow_down.png',
+    iconRetinaUrl: './image/marker_green_orange_arrow_down.png',
     iconSize: [20, 20],
     iconAnchor: [10, 20],
     popupAnchor: [0, -14]

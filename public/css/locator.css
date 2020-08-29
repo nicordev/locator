@@ -76,6 +76,14 @@ html, body {
     border-radius: 0.25rem;
 }
 
+.info-box-group {
+    margin: 0.5rem 0;
+}
+
+.info-box-group-title {
+    font-weight: bold;
+}
+
 .top-left {
     left: 1rem;
     top: 1rem;
