@@ -3,7 +3,7 @@ import {
     addLeafletTileLayerToMap,
     removeLeafletLayerFromMap,
 } from './leaflet_handler/leaflet_handler.js';
-import { createMapBoxLayer, createGeoportailLayer } from './layers/layers.js';
+import { createMapBoxLayer, createGeoportailLayer, createOpenStreetMapLayer, createHikeLayer } from './layers/layers.js';
 import { addWaypointToMap } from './waypoint/waypoint.js';
 import { initializeMenu } from './user_interface/user_interface.js';
 import { UserLocator } from './UserLocator/UserLocator.js';
@@ -11,6 +11,9 @@ import { UserLocator } from './UserLocator/UserLocator.js';
 export const build = (mapContainerId, mapCenter) => {
 
     const setActiveLayer = (selectedLayerName) => {
+
+        console.log({tileLayers, selectedLayerName})
+
         for (let layerName in tileLayers) {
             if (selectedLayerName === layerName) {
                 addLeafletTileLayerToMap(map, tileLayers[layerName]);
@@ -25,6 +28,8 @@ export const build = (mapContainerId, mapCenter) => {
         doubleClickZoom: false,
     });
     const tileLayers = {
+        hike: createHikeLayer(),
+        openStreetMap: createOpenStreetMapLayer(),
         mapBox: createMapBoxLayer(),
         ignMap: createGeoportailLayer('ignMap'),
         ignExpress: createGeoportailLayer('ignExpress'),
@@ -42,7 +47,7 @@ export const build = (mapContainerId, mapCenter) => {
     }
 
     initializeMenu(state);
-    setActiveLayer('ignMap');
+    setActiveLayer('hike');
 
     map.on('dblclick', function (event) {
         addWaypointToMap(event, state);
