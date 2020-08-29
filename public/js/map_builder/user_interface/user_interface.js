@@ -118,16 +118,16 @@ const initializeLocateUserButton = (
     });
 };
 
-const initializeSearchBar = () => {
+const initializeSearchBar = (map) => {
     const searchInputElement = document.getElementById('search-criteria');
     const searchButtonElement = document.getElementById('search-button');
 
     searchButtonElement.addEventListener('click', function () {
-        search(searchInputElement.value);
+        search(searchInputElement.value, map);
     });
 };
 
-const search = (criteria) => {
+const search = (criteria, map) => {
     const query = `https://nominatim.openstreetmap.org/search?q=${criteria}&format=json`;
 
     fetch(query)
@@ -145,15 +145,18 @@ const search = (criteria) => {
             }
 
             for (let result of results) {
-                searchResultElement.appendChild(createResultItem(result));
+                searchResultElement.appendChild(createResultItem(result, map));
             }
         });
 };
 
-const createResultItem = (result) => {
+const createResultItem = (result, map) => {
     const resultItemElement = document.createElement('div');
     resultItemElement.classList.add('search-result');
+
     resultItemElement.textContent = `${result.display_name} ${result.lat} ${result.lon}`;
+
+    resultItemElement.addEventListener('click', () => centerMap(map, [result.lat, result.lon]));
 
     return resultItemElement;
 };
