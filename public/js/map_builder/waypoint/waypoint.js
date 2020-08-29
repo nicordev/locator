@@ -25,13 +25,14 @@ export const addWaypointToMap = (event, state) => {
     const waypoint = new Waypoint(marker);
 
     state.waypoints[waypoint.getId()] = waypoint;
+    showWaypointData(waypoint, state);
 
-    marker.addEventListener('click', (clickEvent) => showWaypointData(clickEvent, waypoint, state));
+    marker.addEventListener('click', () => showWaypointData(waypoint, state));
     marker.addEventListener('contextmenu', () => removeWaypoint(waypoint, state));
     marker.addEventListener('dblclick', (dblClickEvent) => debug(dblClickEvent, waypoint, state));
 };
 
-const showWaypointData = (event, waypoint, state) => {
+const showWaypointData = (waypoint, state) => {
     const waypointInfoBoxElement = document.getElementById('info-box-waypoint');
     const marker = waypoint.getMarker();
     const latitude = marker.getLatLng().lat.toPrecision(5);

@@ -14,6 +14,7 @@ export function UserLocator(map) {
     const userInfoBoxElement = document.getElementById('info-box-user');
 
     const showUserCoordinates = (userLatLng, accuracy) => {
+        displayInfoBox();
         userInfoBoxElement.innerHTML = '';
         userInfoBoxElement.appendChild(createInfoBoxItem("You're here:"));
         userInfoBoxElement.appendChild(createInfoBoxItem(`Latitude: ${userLatLng.lat.toFixed(4)}`));
@@ -34,12 +35,10 @@ export function UserLocator(map) {
             lat: fullUserCoordinates.latitude,
             lng: fullUserCoordinates.longitude,
         };
+        showUserCoordinates(userLatLng, fullUserCoordinates.accuracy);
         
         userMarker.setLatLng(userLatLng);
-        userMarker.addEventListener('click', function () {
-            displayInfoBox();
-            showUserCoordinates(userLatLng, fullUserCoordinates.accuracy);
-        });
+        userMarker.addEventListener('click', () => showUserCoordinates(userLatLng, fullUserCoordinates.accuracy));
         userMarker.remove();
         userMarker.addTo(map);
         centerMap(map, userLatLng);
