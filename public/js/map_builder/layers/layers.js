@@ -43,3 +43,9 @@ export const createOpenStreetMapLayer = () => {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
 }
+
+export const createHikeLayer = () => {
+    return createLeafletTileLayer('https://www.visorando.com/tiles/HIKINGMAP/{z}/{x}/{y}.png', {
+        attribution : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> & <a href="https://www.visorando.com">visorando</a>'
+    });
+}
