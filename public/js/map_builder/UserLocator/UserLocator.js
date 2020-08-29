@@ -14,16 +14,25 @@ export function UserLocator(map) {
     const userInfoBoxElement = document.getElementById('info-box-user');
 
     const showUserCoordinates = (userLatLng, accuracy) => {
+        displayInfoBox();
         userInfoBoxElement.innerHTML = '';
-        userInfoBoxElement.appendChild(createInfoBoxItem("You're here:"));
-        userInfoBoxElement.appendChild(createInfoBoxItem(`Latitude: ${userLatLng.lat.toFixed(4)}`));
-        userInfoBoxElement.appendChild(createInfoBoxItem(`Longitude: ${userLatLng.lng.toFixed(4)}`));
-        userInfoBoxElement.appendChild(createInfoBoxItem(`Precision: ${accuracy.toFixed(0)} m`));
+        userInfoBoxElement.appendChild(createInfoBoxGroupTitle("You're here:"));
+        userInfoBoxElement.appendChild(createInfoBoxGroupItem(`Latitude: ${userLatLng.lat.toFixed(4)}`));
+        userInfoBoxElement.appendChild(createInfoBoxGroupItem(`Longitude: ${userLatLng.lng.toFixed(4)}`));
+        userInfoBoxElement.appendChild(createInfoBoxGroupItem(`Precision: ${accuracy.toFixed(0)} m`));
     }
 
-    const createInfoBoxItem = (textContent) => {
+    const createInfoBoxGroupItem = (textContent) => {
         const itemElement = document.createElement('div');
         itemElement.textContent = textContent;
+        
+        return itemElement;
+    };
+
+    const createInfoBoxGroupTitle = (textContent) => {
+        const itemElement = document.createElement('div');
+        itemElement.textContent = textContent;
+        itemElement.classList.add('info-box-group-title');
         
         return itemElement;
     };
@@ -34,12 +43,10 @@ export function UserLocator(map) {
             lat: fullUserCoordinates.latitude,
             lng: fullUserCoordinates.longitude,
         };
+        showUserCoordinates(userLatLng, fullUserCoordinates.accuracy);
         
         userMarker.setLatLng(userLatLng);
-        userMarker.addEventListener('click', function () {
-            displayInfoBox();
-            showUserCoordinates(userLatLng, fullUserCoordinates.accuracy);
-        });
+        userMarker.addEventListener('click', () => showUserCoordinates(userLatLng, fullUserCoordinates.accuracy));
         userMarker.remove();
         userMarker.addTo(map);
         centerMap(map, userLatLng);

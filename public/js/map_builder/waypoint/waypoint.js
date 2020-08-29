@@ -2,31 +2,62 @@ import { addMarkerToMap, openPopupOnMap, createPopup, createThenOpenPopupToMap }
 import { geoportailApiKey } from '../../../config/config.js'
 import { displayInfoBox } from '../user_interface/user_interface.js'
 
-export const addWaypointToMap = (event, map) => {
-    const marker = addMarkerToMap(map, event.latlng, { icon: greenArrowDownIcon });
+export function Waypoint(initialMarker) {
+    let marker = initialMarker;
+    const id = Date.now();
 
-    marker.addEventListener('click', (clickEvent) => showWaypointData(clickEvent, marker, map));
-    marker.addEventListener('contextmenu', (contextMenuEvent) => removeWaypoint(contextMenuEvent, marker));
-    marker.addEventListener('dblclick', (dblClickEvent) => debugWaypoint(dblClickEvent, marker));
+    this.getMarker = () => marker;
+    this.getId = () => id;
+
+    this.removeMarker = function () {
+        marker.remove();
+    }
+
+    this.setMarker = function (newMarker) {
+        this.removeMarker();
+        marker = newMarker;
+    }
+}
+
+export const addWaypointToMap = (event, state) => {
+    const { map } = state;
+    const marker = addMarkerToMap(map, event.latlng, { icon: greenArrowDownIcon });
+    const waypoint = new Waypoint(marker);
+
+    state.waypoints[waypoint.getId()] = waypoint;
+    showWaypointData(waypoint, state);
+
+    marker.addEventListener('click', () => showWaypointData(waypoint, state));
+    marker.addEventListener('contextmenu', () => removeWaypoint(waypoint, state));
+    marker.addEventListener('dblclick', (dblClickEvent) => debug(dblClickEvent, waypoint, state));
 };
 
-const showWaypointData = (event, marker, map) => {
+const showWaypointData = (waypoint, state) => {
     const waypointInfoBoxElement = document.getElementById('info-box-waypoint');
+    const marker = waypoint.getMarker();
     const latitude = marker.getLatLng().lat.toPrecision(5);
     const longitude = marker.getLatLng().lng.toPrecision(5);
     let altitude = '';
+
+    if (state.activeWaypoint instanceof Waypoint) {
+        state.activeWaypoint.getMarker().setIcon(greenArrowDownIcon);
+    }
+
+    state.activeWaypoint = waypoint;
+
+    marker.setIcon(greenOrangeArrowDownIcon);
     
     // fetchAltitudeFromIgn(latitude, longitude, function (ignData) {
     //     console.log(ignData);
     // });
 
     waypointInfoBoxElement.innerHTML = '';
-    waypointInfoBoxElement.appendChild(createWaypointPopupContent(latitude, longitude, altitude, marker));
+    waypointInfoBoxElement.appendChild(createWaypointPopupContent(latitude, longitude, altitude, waypoint, state));
 
     displayInfoBox();
 }
 
-const createWaypointPopupContent = function (latitude, longitude, altitude, waypointMarker) {
+const createWaypointPopupContent = function (latitude, longitude, altitude, waypoint, state) {
     const contentElement = document.createElement('div');
     const coordinatesElement = document.createElement('div');
 
@@ -42,7 +73,7 @@ const createWaypointPopupContent = function (latitude, longitude, altitude, wayp
         removeButtonElement.textContent = 'Remove';
         removeButtonElement.addEventListener('click', function () {
             this.remove();
-            waypointMarker.remove();
+            removeWaypoint(waypoint, state);
             coordinatesElement.remove();
         });
 
@@ -62,16 +93,26 @@ const createWaypointPopupContent = function (latitude, longitude, altitude, wayp
     return contentElement;
 }
 
-const removeWaypoint = (event, marker) => marker.remove();
+const removeWaypoint = (waypoint, state) => {
+    waypoint.removeMarker();
+    delete state.waypoints[waypoint.getId()];
+}
 
-const debugWaypoint = (event, marker) => {
-    console.log('Debugging a waypoint...');
-    console.log(marker);
+const debug = (event, waypoint, state) => {
+    console.log({event, waypoint, state});
 }
 
 const greenArrowDownIcon = L.icon({
     iconUrl: './image/marker_green_arrow_down.png',
     iconRetinaUrl: './image/marker_green_arrow_down.png',
+    iconSize: [20, 20],
+    iconAnchor: [10, 20],
+    popupAnchor: [0, -14]
+});
+
+const greenOrangeArrowDownIcon = L.icon({
+    iconUrl: './image/marker_green_orange_arrow_down.png',
+    iconRetinaUrl: './image/marker_green_orange_arrow_down.png',
     iconSize: [20, 20],
     iconAnchor: [10, 20],
     popupAnchor: [0, -14]

@@ -49,6 +49,10 @@ html, body {
     padding: 1em 0;
 }
 
+.search-result:hover {
+    cursor: pointer;
+}
+
 .hidden {
     display: none;
 }
@@ -74,6 +78,14 @@ html, body {
     color: whitesmoke;
     padding: 1em;
     border-radius: 0.25rem;
+}
+
+.info-box-group {
+    margin: 0.5rem 0;
+}
+
+.info-box-group-title {
+    font-weight: bold;
 }
 
 .top-left {
