@@ -49,6 +49,10 @@ html, body {
     padding: 1em 0;
 }
 
+.search-result:hover {
+    cursor: pointer;
+}
+
 .hidden {
     display: none;
 }
