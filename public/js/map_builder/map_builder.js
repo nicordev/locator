@@ -3,13 +3,17 @@ import {
     addLeafletTileLayerToMap,
     removeLeafletLayerFromMap,
 } from './leaflet_handler/leaflet_handler.js';
-import { createMapBoxLayer, createGeoportailLayer } from './layers/layers.js';
+import {
+    createMapBoxLayer,
+    createGeoportailLayer,
+    createOpenStreetMapLayer,
+    createHikeLayer,
+} from './layers/layers.js';
 import { addWaypointToMap } from './waypoint/waypoint.js';
 import { initializeMenu } from './user_interface/user_interface.js';
 import { UserLocator } from './UserLocator/UserLocator.js';
 
 export const build = (mapContainerId, mapCenter) => {
-
     const setActiveLayer = (selectedLayerName) => {
         for (let layerName in tileLayers) {
             if (selectedLayerName === layerName) {
@@ -25,22 +29,22 @@ export const build = (mapContainerId, mapCenter) => {
         doubleClickZoom: false,
     });
     const tileLayers = {
+        hike: createHikeLayer(),
+        openStreetMap: createOpenStreetMapLayer(),
         mapBox: createMapBoxLayer(),
         ignMap: createGeoportailLayer('ignMap'),
         ignExpress: createGeoportailLayer('ignExpress'),
         ignPhoto: createGeoportailLayer('ignPhoto'),
     };
-    const userLocator = new UserLocator(map);
+    const state = {};
+    const userLocator = new UserLocator(state);
 
-    const state = {
-        tileLayers,
-        map,
-        mapContainerId,
-        selectedLayerCallback: setActiveLayer,
-        geolocationSuccessCallback: userLocator.showUserOnMap,
-        waypoints: {}
-    }
-
+    state.tileLayers = tileLayers;
+    state.map = map;
+    state.mapContainerId = mapContainerId;
+    state.selectedLayerCallback = setActiveLayer;
+    state.geolocationSuccessCallback = userLocator.showUserOnMap;
+    state.waypoints = {};
     initializeMenu(state);
     setActiveLayer('ignMap');
 
