@@ -46,7 +46,7 @@ export const build = (mapContainerId, mapCenter) => {
     state.geolocationSuccessCallback = userLocator.showUserOnMap;
     state.waypoints = {};
     initializeMenu(state);
-    setActiveLayer('hike');
+    setActiveLayer('ignMap');
 
     map.on('dblclick', function (event) {
         addWaypointToMap(event, state);
