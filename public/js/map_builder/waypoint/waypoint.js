@@ -1,6 +1,11 @@
-import { addMarkerToMap, openPopupOnMap, createPopup, createThenOpenPopupToMap } from '../leaflet_handler/leaflet_handler.js'
-import { geoportailApiKey } from '../../../config/config.js'
-import { displayInfoBox } from '../user_interface/user_interface.js'
+import {
+    addMarkerToMap,
+    openPopupOnMap,
+    createPopup,
+    createThenOpenPopupToMap,
+} from '../leaflet_handler/leaflet_handler.js';
+import { geoportailApiKey } from '../../../config/config.js';
+import { displayInfoBox } from '../user_interface/user_interface.js';
 
 export function Waypoint(initialMarker) {
     let marker = initialMarker;
@@ -11,33 +16,49 @@ export function Waypoint(initialMarker) {
 
     this.removeMarker = function () {
         marker.remove();
-    }
+    };
 
     this.setMarker = function (newMarker) {
         this.removeMarker();
         marker = newMarker;
-    }
+    };
 }
 
 export const addWaypointToMap = (event, state) => {
     const { map } = state;
-    const marker = addMarkerToMap(map, event.latlng, { icon: greenArrowDownIcon });
+    const marker = addMarkerToMap(map, event.latlng, {
+        icon: greenArrowDownIcon,
+    });
     const waypoint = new Waypoint(marker);
 
     state.waypoints[waypoint.getId()] = waypoint;
     showWaypointData(waypoint, state);
 
     marker.addEventListener('click', () => showWaypointData(waypoint, state));
-    marker.addEventListener('contextmenu', () => removeWaypoint(waypoint, state));
-    marker.addEventListener('dblclick', (dblClickEvent) => debug(dblClickEvent, waypoint, state));
+    marker.addEventListener('contextmenu', () =>
+        removeWaypoint(waypoint, state)
+    );
+    marker.addEventListener('dblclick', (dblClickEvent) =>
+        debug(dblClickEvent, waypoint, state)
+    );
 };
 
 const showWaypointData = (waypoint, state) => {
     const waypointInfoBoxElement = document.getElementById('info-box-waypoint');
     const marker = waypoint.getMarker();
-    const latitude = marker.getLatLng().lat.toPrecision(5);
-    const longitude = marker.getLatLng().lng.toPrecision(5);
-    let altitude = '';
+    const markerCoordinates = marker.getLatLng();
+    const waypointData = {
+        latitude: markerCoordinates.lat.toPrecision(5),
+        longitude: markerCoordinates.lng.toPrecision(5),
+        altitude: '',
+        distanceFromUser: '',
+    };
+
+    if (undefined !== state.userCoordinates) {
+        waypointData.distanceFromUser = markerCoordinates
+            .distanceTo(state.userCoordinates.latLng)
+            .toFixed(0);
+    }
 
     if (state.activeWaypoint instanceof Waypoint) {
         state.activeWaypoint.getMarker().setIcon(greenArrowDownIcon);
@@ -46,27 +67,30 @@ const showWaypointData = (waypoint, state) => {
     state.activeWaypoint = waypoint;
 
     marker.setIcon(greenOrangeArrowDownIcon);
-    
+
     // fetchAltitudeFromIgn(latitude, longitude, function (ignData) {
     //     console.log(ignData);
     // });
 
     waypointInfoBoxElement.innerHTML = '';
-    waypointInfoBoxElement.appendChild(createWaypointPopupContent(latitude, longitude, altitude, waypoint, state));
+    waypointInfoBoxElement.appendChild(
+        createWaypointPopupContent(waypointData, waypoint, state)
+    );
 
     displayInfoBox();
-}
+};
 
-const createWaypointPopupContent = function (latitude, longitude, altitude, waypoint, state) {
+const createWaypointPopupContent = function (waypointData, waypoint, state) {
+    const { latitude, longitude, altitude, distanceFromUser } = waypointData;
     const contentElement = document.createElement('div');
     const coordinatesElement = document.createElement('div');
 
     const createCoordinateElement = function (content) {
         const coordinateElement = document.createElement('div');
         coordinateElement.textContent = content;
-        
+
         return coordinateElement;
-    }
+    };
 
     const createRemoveButtonElement = function () {
         const removeButtonElement = document.createElement('button');
@@ -78,36 +102,48 @@ const createWaypointPopupContent = function (latitude, longitude, altitude, wayp
         });
 
         return removeButtonElement;
+    };
+
+    coordinatesElement.appendChild(
+        createCoordinateElement(`lat: ${Number(latitude).toFixed(4)}`)
+    );
+    coordinatesElement.appendChild(
+        createCoordinateElement(`long: ${Number(longitude).toFixed(4)}`)
+    );
+
+    if (altitude) {
+        coordinatesElement.appendChild(
+            createCoordinateElement(`alt: ${altitude.toFixed(0)} m`)
+        );
     }
 
-    coordinatesElement.appendChild(createCoordinateElement(`lat: ${Number(latitude).toFixed(4)}`));
-    coordinatesElement.appendChild(createCoordinateElement(`long: ${Number(longitude).toFixed(4)}`));
-    
-    if (altitude) {
-        coordinatesElement.appendChild(createCoordinateElement(`alt: ${altitude.toFixed(0)} m`));
+    if (distanceFromUser) {
+        coordinatesElement.appendChild(
+            createCoordinateElement(`distance: ${distanceFromUser} m`)
+        );
     }
-    
+
     contentElement.appendChild(coordinatesElement);
     contentElement.appendChild(createRemoveButtonElement());
-    
+
     return contentElement;
-}
+};
 
 const removeWaypoint = (waypoint, state) => {
     waypoint.removeMarker();
     delete state.waypoints[waypoint.getId()];
-}
+};
 
 const debug = (event, waypoint, state) => {
-    console.log({event, waypoint, state});
-}
+    console.log({ event, waypoint, state });
+};
 
 const greenArrowDownIcon = L.icon({
     iconUrl: './image/marker_green_arrow_down.png',
     iconRetinaUrl: './image/marker_green_arrow_down.png',
     iconSize: [20, 20],
     iconAnchor: [10, 20],
-    popupAnchor: [0, -14]
+    popupAnchor: [0, -14],
 });
 
 const greenOrangeArrowDownIcon = L.icon({
@@ -115,18 +151,16 @@ const greenOrangeArrowDownIcon = L.icon({
     iconRetinaUrl: './image/marker_green_orange_arrow_down.png',
     iconSize: [20, 20],
     iconAnchor: [10, 20],
-    popupAnchor: [0, -14]
+    popupAnchor: [0, -14],
 });
 
 const fetchAltitudeFromIgn = (latitude, longitude, callback) => {
-
     const ignUrl = `https://wxs.ign.fr/${geoportailApiKey}/alti/rest/elevation.json?lat=${latitude}&lon=${longitude}&indent=true`;
 
     fetch(ignUrl)
-        .then(response => response.json().elevations[0].z)
-        .then(callback)
-    ;
-}
+        .then((response) => response.json().elevations[0].z)
+        .then(callback);
+};
 
 // https://wxs.ign.fr/k81gswufyozu38e49nfkcepg/alti/rest/elevation.json?lat=45.747&lon=4.8651&indent=true
 
@@ -148,6 +182,6 @@ const fetchAltitudeFromIgn = (latitude, longitude, callback) => {
 
 // function convertDecimalToDegrees() {
 //     form11.deglat.value = ((Math.floor(latAbs / 1000000) * signlat) + '° ' + Math.floor(((latAbs / 1000000) - Math.floor(latAbs / 1000000)) * 60) + '\' ' + (Math.floor(((((latAbs / 1000000) - Math.floor(latAbs / 1000000)) * 60) - Math.floor(((latAbs / 1000000) - Math.floor(latAbs / 1000000)) * 60)) * 100000) * 60 / 100000) + '"');
-    
+
 //     form11.deglon.value = ((Math.floor(lonAbs / 1000000) * signlon) + '° ' + Math.floor(((lonAbs / 1000000) - Math.floor(lonAbs / 1000000)) * 60) + '\' ' + (Math.floor(((((lonAbs / 1000000) - Math.floor(lonAbs / 1000000)) * 60) - Math.floor(((lonAbs / 1000000) - Math.floor(lonAbs / 1000000)) * 60)) * 100000) * 60 / 100000) + '"');
 // }

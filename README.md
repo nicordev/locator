@@ -1,6 +1,6 @@
 # Locator
 
-A website to locate things on a map, [here](http://locator.nicordev.com/index.html).
+A website to locate things on a map, [here](https://locator.nicordev.com).
 
 ## Current features
 
