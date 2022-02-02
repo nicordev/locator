@@ -33,7 +33,6 @@ export const build = (mapContainerId, mapCenter) => {
         openStreetMap: createOpenStreetMapLayer(),
         mapBox: createMapBoxLayer(),
         ignMap: createGeoportailLayer('ignMap'),
-        ignExpress: createGeoportailLayer('ignExpress'),
         ignPhoto: createGeoportailLayer('ignPhoto'),
     };
     const state = {};

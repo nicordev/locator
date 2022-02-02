@@ -1,5 +1,4 @@
-import { createLeafletTileLayer } from '../leaflet_handler/leaflet_handler.js'
-import { geoportailApiKey } from '../../../config/config.js'
+import { createLeafletTileLayer } from '../leaflet_handler/leaflet_handler.js';
 
 export const createMapBoxLayer = () => {
     let layerUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}';
@@ -11,41 +10,32 @@ export const createMapBoxLayer = () => {
     };
 
     return createLeafletTileLayer(layerUrl, options);
-}
+};
 
 export const createGeoportailLayer = (layer = 'ignMap') => {
-    let availableLayers = {
-        ignMap: "GEOGRAPHICALGRIDSYSTEMS.MAPS",
-        ignExpress: "GEOGRAPHICALGRIDSYSTEMS.MAPS.SCAN-EXPRESS.STANDARD",
-        ignPhoto: "ORTHOIMAGERY.ORTHOPHOTOS"
-    };
-    let url = "https://wxs.ign.fr/" + geoportailApiKey + "/geoportail/wmts?" +
-    "&REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0" +
-    "&STYLE=normal" +
-    "&TILEMATRIXSET=PM" +
-    "&FORMAT=image/jpeg" +
-    "&LAYER=" + availableLayers[layer] +
-    "&TILEMATRIX={z}" +
-    "&TILEROW={y}" +
-    "&TILECOL={x}";
-    let options = {
-        minZoom : 0,
-        maxZoom : 18,
-        attribution : "IGN-F/Geoportail",
-        tileSize : 256
+    const options = {
+        minZoom: 0,
+        maxZoom: 18,
+        attribution: "IGN-F/Geoportail",
+        tileSize: 256
     };
 
-    return createLeafletTileLayer(url, options);
-}
+    const layers = {
+        ignMap: `https://wxs.ign.fr/decouverte/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&LAYER=GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2&FORMAT=image/png&VERSION=1.0.0&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&STYLE=normal`,
+        ignPhoto: `https://wxs.ign.fr/decouverte/geoportail/wmts?SERVICE=WMTS&REQUEST=GetTile&LAYER=ORTHOIMAGERY.ORTHOPHOTOS&FORMAT=image/jpeg&VERSION=1.0.0&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&STYLE=normal`
+    }
+
+    return createLeafletTileLayer(layers[layer], options);
+};
 
 export const createOpenStreetMapLayer = () => {
     return createLeafletTileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
-}
+};
 
 export const createHikeLayer = () => {
     return createLeafletTileLayer('https://www.visorando.com/tiles/HIKINGMAP/{z}/{x}/{y}.png', {
-        attribution : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> & <a href="https://www.visorando.com">visorando</a>'
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> & <a href="https://www.visorando.com">visorando</a>'
     });
-}
+};

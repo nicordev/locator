@@ -4,7 +4,6 @@ import {
     createPopup,
     createThenOpenPopupToMap,
 } from '../leaflet_handler/leaflet_handler.js';
-import { geoportailApiKey } from '../../../config/config.js';
 import { displayInfoBox } from '../user_interface/user_interface.js';
 
 export function Waypoint(initialMarker) {
@@ -155,7 +154,7 @@ const greenOrangeArrowDownIcon = L.icon({
 });
 
 const fetchAltitudeFromIgn = (latitude, longitude, callback) => {
-    const ignUrl = `https://wxs.ign.fr/${geoportailApiKey}/alti/rest/elevation.json?lat=${latitude}&lon=${longitude}&indent=true`;
+    const ignUrl = `https://wxs.ign.fr/essentiels/alti/rest/elevation.json?lat=${latitude}&lon=${longitude}&indent=true`;
 
     fetch(ignUrl)
         .then((response) => response.json().elevations[0].z)
